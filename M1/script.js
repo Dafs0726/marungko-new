@@ -348,6 +348,37 @@ function playAudioSequence(audioIds, targetId) {
     playNext();
 }
 
+function selectPantig(starEl, syllableType) {
+    const page = starEl ? starEl.closest('.screen') : null;
+    if (!page) return;
+
+    const audioPrefix = page.id === 'page13' ? 'audio13' : 'audio11';
+
+    page.querySelectorAll('.star-syllable-star').forEach(star => {
+        star.classList.remove('active');
+    });
+
+    page.querySelectorAll('.star-syllable-text').forEach(text => {
+        text.classList.remove('active', 'pop-animation');
+        void text.offsetWidth;
+    });
+
+    starEl.classList.add('active');
+
+    const textEl = starEl.nextElementSibling;
+    if (textEl && textEl.classList.contains('star-syllable-text')) {
+        textEl.classList.add('active', 'pop-animation');
+    }
+
+    const textId = textEl && textEl.id ? textEl.id : null;
+
+    if (typeof syllableType === 'string' && syllableType.length >= 2) {
+        const firstLetter = syllableType.charAt(0).toLowerCase();
+        const secondLetter = syllableType.charAt(1).toLowerCase();
+        playAudioSequence([`${audioPrefix}_${firstLetter}`, `${audioPrefix}_${secondLetter}`], textId);
+    }
+}
+
 function stopAudio() {
     if (currentAudio) {
         currentAudio.pause();

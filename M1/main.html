@@ -603,6 +603,427 @@
                 <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page9')">
                     <div class="arrow"></div>
                 </div>
+                <div class="nav-btn" onclick="showPage('page11')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 11: Star Syllable Board -->
+            <div id="page11" class="screen">
+                <div class="star-syllable-slide">
+                    <div class="star-syllable-grid">
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'ma')">★</span>
+                            <span id="text11_ma1" class="star-syllable-text">ma</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'am')">★</span>
+                            <span id="text11_am1" class="star-syllable-text">am</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'ma')">★</span>
+                            <span id="text11_ma2" class="star-syllable-text">ma</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'am')">★</span>
+                            <span id="text11_am2" class="star-syllable-text">am</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'am')">★</span>
+                            <span id="text11_am3" class="star-syllable-text">am</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'ma')">★</span>
+                            <span id="text11_ma3" class="star-syllable-text">ma</span>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio11_m" src="../audio/letter_m.m4a" preload="auto"></audio>
+                <audio id="audio11_a" src="../audio/letter_a.m4a" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page10')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page12')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 12: Simple Blending (sa / as) -->
+            <div id="page12" class="screen">
+                <div class="simple-blend-slide">
+                    <div class="simple-blend-row">
+                        <span id="text12_sa" class="simple-blend-text">sa</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio12_s', 'audio12_a'], 'text12_sa')" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <div class="simple-blend-row">
+                        <span id="text12_as" class="simple-blend-text">as</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio12_a', 'audio12_s'], 'text12_as')" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <audio id="audio12_s" src="../audio/letter_s.m4a" preload="auto"></audio>
+                <audio id="audio12_a" src="../audio/letter_a.m4a" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page11')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page13')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 13: Star Syllable Board (sa / as) -->
+            <div id="page13" class="screen">
+                <div class="star-syllable-slide">
+                    <div class="star-syllable-grid">
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'sa')">★</span>
+                            <span id="text13_sa1" class="star-syllable-text">sa</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'sa')">★</span>
+                            <span id="text13_sa2" class="star-syllable-text">sa</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'as')">★</span>
+                            <span id="text13_as1" class="star-syllable-text">as</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'sa')">★</span>
+                            <span id="text13_sa3" class="star-syllable-text">sa</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'as')">★</span>
+                            <span id="text13_as2" class="star-syllable-text">as</span>
+                        </div>
+                        <div class="star-syllable-item">
+                            <span class="star-syllable-star" onclick="selectPantig(this, 'as')">★</span>
+                            <span id="text13_as3" class="star-syllable-text">as</span>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio13_s" src="../audio/letter_s.m4a" preload="auto"></audio>
+                <audio id="audio13_a" src="../audio/letter_a.m4a" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page12')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page14')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 14: Ama Blending Scene -->
+            <div id="page14" class="screen">
+                <div class="ama-blend-slide">
+                    <img class="ama-blend-image" src="../images/ama.png" onerror="this.onerror=null;this.src='../images/man with book.png';" alt="Ama at bata">
+
+                    <div class="ama-blend-bottom-row">
+                        <div class="ama-chain-group">
+                            <div class="ama-word-unit">
+                                <span id="text14_a" class="ama-word-text">a</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio14_a', 'text14_a')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text14_ma" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio14_ma', 'text14_ma')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="ama-word-unit ama-final-unit">
+                            <span id="text14_ama" class="ama-word-text">ama</span>
+                            <svg class="speaker-icon" onclick="playAudio('audio14_ama', 'text14_ama')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio14_a" src="../audio/slide14_a.mp3" preload="none"></audio>
+                <audio id="audio14_ma" src="../audio/slide14_ma.mp3" preload="none"></audio>
+                <audio id="audio14_ama" src="../audio/slide14_ama.mp3" preload="none"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page13')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page15')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 15: Sama Blending Scene -->
+            <div id="page15" class="screen">
+                <div class="ama-blend-slide">
+                    <img class="ama-blend-image" src="../images/sama.png" alt="Sama">
+
+                    <div class="ama-blend-bottom-row">
+                        <div class="ama-chain-group">
+                            <div class="ama-word-unit">
+                                <span id="text15_sa" class="ama-word-text">sa</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio15_sa', 'text15_sa')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text15_ma" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio15_ma', 'text15_ma')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="ama-word-unit ama-final-unit">
+                            <span id="text15_sama" class="ama-word-text">sama</span>
+                            <svg class="speaker-icon" onclick="playAudio('audio15_sama', 'text15_sama')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio15_sa" src="../audio/slide15_sa.mp3" preload="none"></audio>
+                <audio id="audio15_ma" src="../audio/slide15_ma.mp3" preload="none"></audio>
+                <audio id="audio15_sama" src="../audio/slide15_sama.mp3" preload="none"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page14')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16: Mama Blending Scene -->
+            <div id="page16" class="screen">
+                <div class="ama-blend-slide">
+                    <img class="ama-blend-image" src="../images/mama.png" alt="Mama">
+
+                    <div class="ama-blend-bottom-row">
+                        <div class="ama-chain-group">
+                            <div class="ama-word-unit">
+                                <span id="text16_ma1" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio16_ma1', 'text16_ma1')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text16_ma2" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio16_ma2', 'text16_ma2')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="ama-word-unit ama-final-unit">
+                            <span id="text16_mama" class="ama-word-text">mama</span>
+                            <svg class="speaker-icon" onclick="playAudio('audio16_mama', 'text16_mama')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio16_ma1" src="../audio/slide16_ma1.mp3" preload="none"></audio>
+                <audio id="audio16_ma2" src="../audio/slide16_ma2.mp3" preload="none"></audio>
+                <audio id="audio16_mama" src="../audio/slide16_mama.mp3" preload="none"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page15')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17: Asa Blending Scene -->
+            <div id="page17" class="screen">
+                <div class="ama-blend-slide">
+                    <img class="ama-blend-image" src="../images/asa.png" alt="Asa">
+
+                    <div class="ama-blend-bottom-row">
+                        <div class="ama-chain-group">
+                            <div class="ama-word-unit">
+                                <span id="text17_a" class="ama-word-text">a</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio17_a', 'text17_a')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text17_sa" class="ama-word-text">sa</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio17_sa', 'text17_sa')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="ama-word-unit ama-final-unit">
+                            <span id="text17_asa" class="ama-word-text">asa</span>
+                            <svg class="speaker-icon" onclick="playAudio('audio17_asa', 'text17_asa')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio17_a" src="../audio/slide17_a.mp3" preload="none"></audio>
+                <audio id="audio17_sa" src="../audio/slide17_sa.mp3" preload="none"></audio>
+                <audio id="audio17_asa" src="../audio/slide17_asa.mp3" preload="none"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page18')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 18: Masa Blending Scene -->
+            <div id="page18" class="screen">
+                <div class="ama-blend-slide">
+                    <img class="ama-blend-image" src="../images/masa.png" alt="Masa">
+
+                    <div class="ama-blend-bottom-row">
+                        <div class="ama-chain-group">
+                            <div class="ama-word-unit">
+                                <span id="text18_ma" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio18_ma', 'text18_ma')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text18_sa" class="ama-word-text">sa</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio18_sa', 'text18_sa')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="ama-word-unit ama-final-unit">
+                            <span id="text18_masa" class="ama-word-text">masa</span>
+                            <svg class="speaker-icon" onclick="playAudio('audio18_masa', 'text18_masa')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio18_ma" src="../audio/slide18_ma.mp3" preload="none"></audio>
+                <audio id="audio18_sa" src="../audio/slide18_sa.mp3" preload="none"></audio>
+                <audio id="audio18_masa" src="../audio/slide18_masa.mp3" preload="none"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page19')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 19: Masama Blending Scene -->
+            <div id="page19" class="screen">
+                <div class="ama-blend-slide">
+                    <img class="ama-blend-image" src="../images/masama.png" alt="Masama">
+
+                    <div class="ama-blend-bottom-row">
+                        <div class="ama-chain-group">
+                            <div class="ama-word-unit">
+                                <span id="text19_ma1" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio19_ma1', 'text19_ma1')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text19_sa" class="ama-word-text">sa</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio19_sa', 'text19_sa')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-chain-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 60 24" width="60" height="24">
+                                    <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                                </svg>
+                            </div>
+
+                            <div class="ama-word-unit">
+                                <span id="text19_ma2" class="ama-word-text">ma</span>
+                                <svg class="speaker-icon" onclick="playAudio('audio19_ma2', 'text19_ma2')" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="ama-word-unit ama-final-unit">
+                            <span id="text19_masama" class="ama-word-text">masama</span>
+                            <svg class="speaker-icon" onclick="playAudio('audio19_masama', 'text19_masama')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <audio id="audio19_ma1" src="../audio/slide19_ma1.mp3" preload="none"></audio>
+                <audio id="audio19_sa" src="../audio/slide19_sa.mp3" preload="none"></audio>
+                <audio id="audio19_ma2" src="../audio/slide19_ma2.mp3" preload="none"></audio>
+                <audio id="audio19_masama" src="../audio/slide19_masama.mp3" preload="none"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page18')">
+                    <div class="arrow"></div>
+                </div>
                 <div class="nav-btn" onclick="showPage('page1')">
                     <div class="arrow"></div>
                 </div>
