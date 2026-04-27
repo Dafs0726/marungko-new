@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6 - Marungko</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* Internal styles removed - now using unified framework in style.css */
+    </style>
+</head>
+
+<body>
+    <a class="index-return-btn" href="../index.html" data-transition-direction="back" aria-label="Return to index" title="Return">Return</a>
+    <div class="frame">
+        <div class="chalkboard">
+
+            <!-- DECODE Logo top right -->
+            <div class="logo-placeholder">
+                <img src="../images/decode.png" alt="Logo">
+            </div>
+            <div class="doodle-layer" aria-hidden="true">
+                <span class="doodle cloud" style="--x: 12%; --y: 18%; --w: 180px; --h: 80px; --t: 28s;"></span>
+                <span class="doodle cloud" style="--x: 70%; --y: 12%; --w: 160px; --h: 70px; --t: 26s;"></span>
+                <span class="doodle cloud" style="--x: 86%; --y: 62%; --w: 200px; --h: 90px; --t: 30s;"></span>
+                <span class="doodle blob" style="--x: 20%; --y: 70%; --w: 140px; --h: 100px; --t: 24s;"></span>
+                <span class="doodle blob" style="--x: 56%; --y: 36%; --w: 120px; --h: 90px; --t: 22s;"></span>
+                <span class="doodle sparkle" style="--x: 32%; --y: 22%; --size: 16px; --t: 5.5s;"></span>
+                <span class="doodle sparkle" style="--x: 62%; --y: 18%; --size: 12px; --t: 6.5s;"></span>
+                <span class="doodle sparkle" style="--x: 78%; --y: 40%; --size: 14px; --t: 7s;"></span>
+                <span class="doodle sparkle" style="--x: 42%; --y: 80%; --size: 10px; --t: 6s;"></span>
+            </div>
+
+            <!-- Lesson 6 Screen -->
+            <div id="lesson6" class="screen active lesson-screen">
+
+                <!-- Top row: sentence + speaker icon -->
+                <div class="lesson-header-row">
+                    <!-- Cartoonish speaker SVG button -->
+                    <svg class="lesson-speaker-btn" id="l6-speaker" viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg" onclick="playSentenceAudio()" title="Pakinggan">
+                        <rect x="6" y="36" width="26" height="28" rx="7" ry="7" fill="#FFFDE7" stroke="#8D6E63"
+                            stroke-width="3" />
+                        <polygon points="32,29 62,12 62,88 32,71" fill="#FFE0B2" stroke="#8D6E63" stroke-width="3" />
+                        <ellipse cx="16" cy="43" rx="5" ry="3" fill="rgba(255,255,255,0.6)"
+                            transform="rotate(-10,16,43)" />
+                        <path d="M69,36 Q80,50 69,64" fill="none" stroke="#FFF9C4" stroke-width="5.5"
+                            stroke-linecap="round" />
+                        <path d="M76,26 Q93,50 76,74" fill="none" stroke="#FFE082" stroke-width="5"
+                            stroke-linecap="round" />
+                    </svg>
+                    <p class="lesson-heading">Kay Biboy ang bola.</p>
+                    <div class="header-spacer"></div>
+                </div>
+
+                <!-- Image choices -->
+                <div class="lesson-choices-row">
+
+                    <!-- a. Gitara Kuya (wrong) -->
+                    <div class="lesson-choice-card" onclick="checkAnswer(this, false)">
+                        <div class="label">a.</div>
+                        <img src="../images/gitara_kuya.png" alt="Gitara Kuya">
+                    </div>
+
+                    <!-- b. Manika Ate (wrong) -->
+                    <div class="lesson-choice-card" onclick="checkAnswer(this, false)">
+                        <div class="label">b.</div>
+                        <img src="../images/manika_ate.png" alt="Manika Ate">
+                    </div>
+
+                    <!-- c. Nanay Bakya (wrong) -->
+                    <div class="lesson-choice-card" onclick="checkAnswer(this, false)">
+                        <div class="label">c.</div>
+                        <img src="../images/nanay_bakya.png" alt="Nanay Bakya">
+                    </div>
+
+                    <!-- d. Biboy Bola (CORRECT) -->
+                    <div class="lesson-choice-card" onclick="checkAnswer(this, true)">
+                        <div class="label">d.</div>
+                        <img src="../images/biboy_bola.png" alt="Biboy Bola">
+                    </div>
+
+                </div>
+
+                <!-- Feedback panel -->
+                <div class="lesson-feedback-panel" id="l6-feedback-panel">
+                    <div class="icon" id="l6-feedback-icon"></div>
+                    <div class="title" id="l6-feedback-title"></div>
+                    <div class="sub-text" id="l6-feedback-sub"></div>
+                </div>
+
+                <!-- Home button (bottom right) -->
+                <div class="home-btn" onclick="navigateWithSlide('dafs.html#page14', 'back')" title="Go back to lesson menu">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10,18 Q10,14 14,13 Q30,10 48,15 L48,85 Q30,80 14,83 Q10,84 10,80 Z" fill="#f5e6c8"
+                            stroke="#c8a96e" stroke-width="2.5" />
+                        <path d="M90,18 Q90,14 86,13 Q70,10 52,15 L52,85 Q70,80 86,83 Q90,84 90,80 Z" fill="#fdf3de"
+                            stroke="#c8a96e" stroke-width="2.5" />
+                        <rect x="46" y="12" width="8" height="74" rx="2" fill="#b08030" />
+                        <line x1="18" y1="30" x2="44" y2="28" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="18" y1="40" x2="44" y2="38" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="18" y1="50" x2="44" y2="48" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="18" y1="60" x2="44" y2="58" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="56" y1="28" x2="82" y2="30" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="56" y1="38" x2="82" y2="40" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="56" y1="48" x2="82" y2="50" stroke="#c8a96e" stroke-width="1.8" />
+                        <line x1="56" y1="58" x2="82" y2="60" stroke="#c8a96e" stroke-width="1.8" />
+                        <text x="65" y="78" font-size="16" text-anchor="middle" fill="#e07830"
+                            font-family="sans-serif">&#9733;</text>
+                    </svg>
+                </div>
+
+            </div>
+
+            <!-- Sound effects -->
+            <audio id="sfx-correct" src="../audio/correct.mp3" preload="auto"></audio>
+            <audio id="sfx-wrong" src="../audio/wrong.mp3" preload="auto"></audio>
+            <audio id="sfx-sentence" src="../audio/Kay_biboy.m4a" preload="auto"></audio>
+
+        </div>
+    </div>
+
+    <script>
+        function playSentenceAudio() {
+            const audio = document.getElementById('sfx-sentence');
+            const btn = document.getElementById('l6-speaker');
+            if (!audio) return;
+            audio.currentTime = 0;
+            audio.play().catch(() => { });
+            btn.classList.add('playing');
+            audio.onended = () => btn.classList.remove('playing');
+        }
+
+        function checkAnswer(el, isCorrect) {
+            const panel = document.getElementById('l6-feedback-panel');
+            const icon = document.getElementById('l6-feedback-icon');
+            const title = document.getElementById('l6-feedback-title');
+            const sub = document.getElementById('l6-feedback-sub');
+
+            document.querySelectorAll('.lesson-choice-card').forEach(c => {
+                c.style.outline = 'none';
+                c.style.filter = '';
+            });
+
+            const sfx = document.getElementById(isCorrect ? 'sfx-correct' : 'sfx-wrong');
+            sfx.currentTime = 0;
+            sfx.play();
+
+            if (isCorrect) {
+                panel.className = 'lesson-feedback-panel show correct';
+                icon.textContent = String.fromCodePoint(0x1f31f);
+                title.textContent = 'Tama!';
+                sub.textContent = 'Napakagaling mo!';
+                el.style.outline = '6px solid #2ecc71';
+                el.style.filter = 'brightness(1.15)';
+            } else {
+                panel.className = 'lesson-feedback-panel show wrong';
+                icon.textContent = String.fromCodePoint(0x1f60a);
+                title.textContent = 'Subukan Muli!';
+                sub.textContent = 'Kaya mo yan, try ulit!';
+                el.style.outline = '6px solid #e74c3c';
+                el.style.filter = 'brightness(0.85)';
+            }
+
+            setTimeout(() => {
+                panel.classList.remove('show');
+                el.style.outline = 'none';
+                el.style.filter = 'none';
+                if (isCorrect) {
+                    localStorage.removeItem('lesson6_wrong');
+                    localStorage.setItem('lesson6_done', '1');
+                    localStorage.removeItem('lesson6_wrong');
+                    navigateWithSlide('dafs.html#page14', 'back');
+                } else {
+                    localStorage.removeItem('lesson6_done');
+                    localStorage.setItem('lesson6_wrong', '1');
+                    localStorage.removeItem('lesson6_done');
+                    navigateWithSlide('dafs.html#page14', 'back');
+                }
+            }, 1800);
+        }
+    </script>
+</body>
+
+</html>

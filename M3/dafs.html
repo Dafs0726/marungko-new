@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marungko Interactive Chalkboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* â”€â”€ Notebook completion badge â”€â”€ */
+        .lesson-btn {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nb-done-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 36px;
+            height: 36px;
+            background: #2ecc71;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+            z-index: 20;
+            font-size: 20px;
+            line-height: 1;
+            color: white;
+            animation: badgePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        .nb-wrong-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 36px;
+            height: 36px;
+            background: #e74c3c;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+            z-index: 20;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1;
+            color: white;
+            animation: badgePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        @keyframes badgePop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            80% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Pagsasanay 2 button â€” bounce + glow CTA */
+        @keyframes p2Bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes p2Glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 0px rgba(255, 180, 0, 0));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 14px rgba(255, 180, 0, 0.9));
+            }
+        }
+
+        .p2-cta {
+            animation: p2Bounce 1.2s ease-in-out infinite, p2Glow 1.2s ease-in-out infinite;
+        }
+
+        .p2-cta:hover {
+            animation: none;
+            filter: drop-shadow(0 0 16px rgba(255, 180, 0, 1));
+            transform: scale(1.08);
+            transition: transform 0.15s ease;
+        }
+
+        /* ── Pantig star (pages 7 & 8) ── */
+        .grid-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .pantig-star {
+            cursor: pointer;
+            font-size: 0.85em;
+            color: #FFCC44;
+            -webkit-text-stroke: 2px #000;
+            text-shadow: 0 2px 6px rgba(255, 180, 0, 0.5);
+            transition: color 0.2s, transform 0.2s, text-shadow 0.2s;
+            user-select: none;
+            flex-shrink: 0;
+            line-height: 1;
+            animation: starBounce 1.8s ease-in-out infinite;
+        }
+
+        @keyframes starBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            40% {
+                transform: translateY(-3px) scale(1.08);
+            }
+
+            60% {
+                transform: translateY(-1px) scale(1.04);
+            }
+        }
+
+        .pantig-star:hover {
+            color: #FFE600;
+            text-shadow: 0 0 10px rgba(255, 230, 0, 1), 0 0 22px rgba(255, 160, 0, 0.7);
+            animation: none;
+            transform: scale(1.25) rotate(-12deg);
+        }
+
+        .pantig-star.active {
+            color: #FFE600;
+            text-shadow: 0 0 12px rgba(255, 230, 0, 1), 0 0 28px rgba(255, 140, 0, 0.8);
+            animation: starGlow 0.9s ease-in-out infinite;
+        }
+
+        @keyframes starGlow {
+
+            0%,
+            100% {
+                transform: scale(1.15);
+                text-shadow: 0 0 10px rgba(255, 220, 0, 0.8), 0 0 20px rgba(255, 140, 0, 0.5);
+            }
+
+            50% {
+                transform: scale(1.25);
+                text-shadow: 0 0 18px rgba(255, 230, 0, 1), 0 0 34px rgba(255, 160, 0, 0.8);
+            }
+        }
+
+        .pantig-text {
+            display: inline-block;
+            transition: color 0.25s;
+            transform-origin: left center;
+        }
+
+        .pantig-text.active {
+            color: #FFD700;
+            animation: pantigPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes pantigPop {
+            0% {
+                transform: scale(1);
+            }
+
+            55% {
+                transform: scale(1.35);
+            }
+
+            100% {
+                transform: scale(1.15);
+            }
+        }
+
+        /* ── Single Question Reveal System ── */
+        .single-question-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 0 40px;
+            text-align: center;
+        }
+
+        .single-question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 75px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+            line-height: 1.4;
+            display: inline-block;
+        }
+
+        .single-question-text svg {
+            width: 60px !important;
+            height: 60px !important;
+            vertical-align: middle;
+            margin-left: 20px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .single-question-text svg:hover {
+            transform: scale(1.1);
+        }
+
+        .reveal-icon {
+            width: 124px;
+            height: 124px;
+            padding: 12px;
+            box-sizing: content-box;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .reveal-icon:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.45));
+        }
+
+        .reveal-answer {
+            font-size: 56px;
+            color: #FFD700;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            line-height: 1.4;
+            max-width: 90%;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .reveal-answer.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Mobile Responsive Single Question ── */
+        @media (max-width: 768px) {
+            .single-question-container {
+                padding: 0 20px;
+            }
+
+            .single-question-text {
+                font-size: 50px;
+                margin-bottom: 30px;
+            }
+
+            .single-question-text svg {
+                width: 45px !important;
+                height: 45px !important;
+                margin-left: 10px;
+            }
+
+            .reveal-icon {
+                width: 94px;
+                height: 94px;
+                padding: 10px;
+                margin-bottom: 25px;
+            }
+
+            .reveal-answer {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .single-question-text {
+                font-size: 38px;
+                margin-bottom: 20px;
+            }
+
+            .single-question-text svg {
+                width: 35px !important;
+                height: 35px !important;
+                margin-left: 8px;
+            }
+
+            .reveal-icon {
+                width: 54px;
+                height: 54px;
+                padding: 8px;
+                margin-bottom: 15px;
+            }
+
+            .reveal-answer {
+                font-size: 32px;
+            }
+        }
+
+        @media (orientation: portrait) {
+            .single-question-container {
+                padding: 80px 25px 20px 25px;
+                justify-content: flex-start;
+            }
+
+            .single-question-text {
+                font-size: 22px;
+                margin-bottom: 15px;
+                line-height: 1.4;
+                max-width: 100%;
+                box-sizing: border-box;
+                display: inline-block;
+                text-align: center;
+                padding: 0 10px;
+            }
+
+            .single-question-text svg {
+                width: 28px !important;
+                height: 28px !important;
+                margin-left: 6px;
+                vertical-align: middle;
+            }
+
+            .reveal-icon {
+                width: 42px;
+                height: 42px;
+                padding: 6px;
+                margin-bottom: 10px;
+                margin-top: 8px;
+            }
+
+            .reveal-answer {
+                font-size: 20px;
+                max-width: 100%;
+                line-height: 1.3;
+                padding: 0 10px;
+            }
+        }
+
+        /* ── Ako Kaya MCQ (Page 16.1) ── */
+        .ako-quiz-container {
+            width: min(90%, 980px);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 30px;
+            text-align: left;
+            box-sizing: border-box;
+            padding: 14px 16px;
+            align-self: flex-start;
+            margin-top: clamp(24px, 4vh, 56px);
+            margin-left: clamp(24px, 4vw, 64px);
+        }
+
+        .ako-quiz-question {
+            margin: 0;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(38px, 3.5vw, 64px);
+            font-weight: 600;
+            line-height: 1.35;
+            color: #ffffff;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.55);
+        }
+
+        .ako-quiz-options {
+            width: min(760px, 100%);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-top: 8px;
+            margin-left: clamp(22px, 2vw, 36px);
+        }
+
+        .ako-quiz-option {
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(31px, 2.65vw, 46px);
+            font-weight: 600;
+            line-height: 1.25;
+            text-align: left;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.16);
+            border: 3px solid rgba(255, 255, 255, 0.45);
+            border-radius: 16px;
+            padding: 18px 22px;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .ako-quiz-option:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.26);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .ako-quiz-option.choice-correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        .ako-quiz-option.choice-wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        .ako-quiz-option:disabled {
+            cursor: default;
+        }
+
+        @media (max-width: 768px) {
+            .ako-quiz-container {
+                gap: 20px;
+                margin-top: clamp(18px, 3vh, 36px);
+                margin-left: clamp(12px, 3vw, 24px);
+            }
+
+            .ako-quiz-question {
+                font-size: clamp(30px, 5.8vw, 46px);
+            }
+
+            .ako-quiz-options {
+                gap: 14px;
+                margin-left: 14px;
+            }
+
+            .ako-quiz-option {
+                font-size: clamp(26px, 4.9vw, 36px);
+                padding: 14px 16px;
+            }
+        }
+
+        @media (orientation: portrait) {
+            .ako-quiz-container {
+                width: min(94%, 980px);
+                padding-top: 28px;
+                margin-top: 0;
+                margin-left: 0;
+            }
+        }
+
+        /* ── Mahusay Celebration ── */
+        .mahusay-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mahusay-title {
+            font-size: 160px;
+            font-weight: 600;
+            color: #FFD700;
+            text-align: center;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.6);
+            animation: mahusayPop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, mahusayFloat 3s ease-in-out infinite alternate;
+            z-index: 10;
+        }
+
+        @keyframes mahusayPop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes mahusayFloat {
+            0% {
+                transform: translateY(0px) rotate(-2deg);
+            }
+
+            100% {
+                transform: translateY(-15px) rotate(2deg);
+            }
+        }
+
+        /* Mobile responsive Mahusay */
+        @media (max-width: 768px) {
+            .mahusay-title {
+                font-size: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mahusay-title {
+                font-size: 65px;
+            }
+        }
+
+        /* CSS Confetti */
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #f2d74e;
+            opacity: 0;
+            top: -20px;
+            animation: confettiFall 4s ease-in infinite;
+        }
+
+        .confetti:nth-child(2n) {
+            background-color: #95c3de;
+            width: 12px;
+            height: 12px;
+            animation-duration: 3s;
+            animation-delay: 1.5s;
+        }
+
+        .confetti:nth-child(3n) {
+            background-color: #ff9a91;
+            width: 18px;
+            height: 18px;
+            animation-duration: 5s;
+            animation-delay: 0.5s;
+        }
+
+        .confetti:nth-child(4n) {
+            background-color: #2ecc71;
+            width: 10px;
+            height: 25px;
+            animation-duration: 3.5s;
+            animation-delay: 2s;
+        }
+
+        .confetti:nth-child(5n) {
+            background-color: #f39c12;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            animation-duration: 4.5s;
+            animation-delay: 1s;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(800px) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="index-return-btn" href="../index.html" data-transition-direction="back" aria-label="Return to index" title="Return">Return</a>
+
+    <div class="frame">
+        <div class="chalkboard">
+            <div class="logo-placeholder">
+                <img src="../images/decode.png" alt="Logo">
+            </div>
+            <div class="doodle-layer" aria-hidden="true">
+                <span class="doodle cloud" style="--x: 12%; --y: 18%; --w: 180px; --h: 80px; --t: 28s;"></span>
+                <span class="doodle cloud" style="--x: 70%; --y: 12%; --w: 160px; --h: 70px; --t: 26s;"></span>
+                <span class="doodle cloud" style="--x: 86%; --y: 62%; --w: 200px; --h: 90px; --t: 30s;"></span>
+                <span class="doodle star" style="--x: 20%; --y: 70%; --size: 20px; --t: 5.2s;"></span>
+                <span class="doodle star" style="--x: 56%; --y: 36%; --size: 16px; --t: 4.8s;"></span>
+                <span class="doodle star" style="--x: 32%; --y: 22%; --size: 18px; --t: 5.5s;"></span>
+                <span class="doodle star" style="--x: 62%; --y: 18%; --size: 14px; --t: 6.5s;"></span>
+                <span class="doodle star" style="--x: 78%; --y: 40%; --size: 17px; --t: 7s;"></span>
+                <span class="doodle star" style="--x: 42%; --y: 80%; --size: 12px; --t: 6s;"></span>
+                <span class="doodle star" style="--x: 9%; --y: 48%; --size: 14px; --t: 6.8s;"></span>
+                <span class="doodle star" style="--x: 90%; --y: 28%; --size: 15px; --t: 5.9s;"></span>
+            </div>
+            <div id="page1" class="screen active">
+                <h1>Marungko</h1>
+                <p><b>DECODE</b> with <span class="highlight">ICT Digitalized Material 3</span></p>
+                <div class="nav-btn" onclick="showPage('page2')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <div id="page2" class="screen">
+                <div class="split-content">
+                    <div class="left-side">
+                        <img class="footprints" src="../images/footprints.png" style="filter: invert(1);" size="300px">
+                    </div>
+                    <div class="right-side">
+                        <div class="interactive-group">
+                            <p id="targetLetter" class="letter-wrapper">
+                                <span class="letter-text">Yy</span>
+                            </p>
+                            <svg class="speaker-icon" onclick="playAudio('letterAudio', 'targetLetter')"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                        <div class="interactive-group">
+                            <p id="targetWord" class="word">
+                                <span id="syl1" class="syllable-wrapper"><span
+                                        class="first-letter-in-word letter-y-in-word syllable-text">y</span><span
+                                        class="syllable-text">a</span></span><span id="syl2"
+                                    class="syllable-wrapper"><span class="syllable-text">pak</span></span>
+                            </p>
+                            <svg class="speaker-icon" onclick="playAudio('wordAudio', 'targetWord')"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+
+
+                    <audio id="letterAudio" src="../audio/LETTER Y.mp3"></audio>
+                    <audio id="wordAudio" src="../audio/YAPAK.m4a"></audio>
+
+                    <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page1')">
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="nav-btn" onclick="showPage('page3')">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page3" class="screen">
+                <div class="split-content">
+                    <div class="left-side">
+                        <img src="../images/yelo.png" alt="Yelo"
+                            style="width: 420px; max-width: 100%; filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));">
+                    </div>
+                    <div class="right-side">
+                        <div class="interactive-group">
+                            <p id="targetLetter3" class="letter-wrapper">
+                                <span class="letter-text">Yy</span>
+                            </p>
+                        </div>
+
+                        <div class="interactive-group">
+                            <p id="targetWord3" class="word">
+                                <span id="syl3" class="syllable-wrapper"><span
+                                        class="first-letter-in-word letter-y-in-word syllable-text">y</span><span
+                                        class="syllable-text">e</span></span><span id="syl4"
+                                    class="syllable-wrapper"><span class="syllable-text">lo</span> </span>
+                            </p>
+                            <svg class="speaker-icon" onclick="playAudio('wordAudio3', 'targetWord3')"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <audio id="letterAudio3" src="../audio/Letter Y.mp3"></audio>
+                    <audio id="wordAudio3" src="../audio/YELO.m4a"></audio>
+
+                    <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page2')">
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="nav-btn" onclick="showPage('page4')">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page4" class="screen">
+                <div class="split-content">
+                    <div class="left-side">
+                        <img src="../images/chalk.png" alt="Yeso"
+                            style="width: 500px; max-width: 100%; filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));">
+                    </div>
+                    <div class="right-side">
+                        <div class="interactive-group">
+                            <p id="targetLetter4" class="letter-wrapper">
+                                <span class="letter-text">Yy</span>
+                            </p>
+                        </div>
+
+                        <div class="interactive-group">
+                            <p id="targetWord4" class="word">
+                                <span id="syl5" class="syllable-wrapper"><span
+                                        class="first-letter-in-word letter-y-in-word syllable-text">y</span><span
+                                        class="syllable-text">e</span></span><span id="syl6"
+                                    class="syllable-wrapper"><span class="syllable-text">so</span></span>
+                            </p>
+                            <svg class="speaker-icon" onclick="playAudio('wordAudio4', 'targetWord4')"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <audio id="letterAudio4" src="../audio/Letter Y.mp3"></audio>
+                    <audio id="wordAudio4" src="../audio/YESO.mp3"></audio>
+
+                    <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page3')">
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="nav-btn" onclick="showPage('page5')">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page5" class="screen">
+                <div class="blending-container">
+                    <!-- Row a -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio_y_a', 'text_y_a')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text_y_a" class="blend-text">y</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text_a" class="blend-text">a</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_a', 'text_a')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text_ya" class="blend-text result-text">ya</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_ya', 'text_ya')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row e -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio_y_e', 'text_y_e')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text_y_e" class="blend-text">y</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text_e" class="blend-text">e</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_e', 'text_e')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text_ye" class="blend-text result-text">ye</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_ye', 'text_ye')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row i -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio_y_i', 'text_y_i')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text_y_i" class="blend-text">y</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text_i" class="blend-text">i</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_i', 'text_i')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text_yi" class="blend-text result-text">yi</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_yi', 'text_yi')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row o -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio_y_o', 'text_y_o')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text_y_o" class="blend-text">y</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text_o" class="blend-text">o</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_o', 'text_o')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text_yo" class="blend-text result-text">yo</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_yo', 'text_yo')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row u -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio_y_u', 'text_y_u')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text_y_u" class="blend-text">y</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text_u" class="blend-text">u</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_u', 'text_u')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text_yu" class="blend-text result-text">yu</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio_yu', 'text_yu')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <audio id="audio_y_a" src="../audio/Y.m4a"></audio>
+                <audio id="audio_a" src="../audio/LETTER A.m4a"></audio>
+                <audio id="audio_ya" src="../audio/YA.m4a"></audio>
+
+                <audio id="audio_y_e" src="../audio/Y.m4a"></audio>
+                <audio id="audio_e" src="../audio/LETTER E.m4a"></audio>
+                <audio id="audio_ye" src="../audio/YE.m4a"></audio>
+
+                <audio id="audio_y_i" src="../audio/Y.m4a"></audio>
+                <audio id="audio_i" src="../audio/LETTER I.m4a"></audio>
+                <audio id="audio_yi" src="../audio/YI.m4a"></audio>
+
+                <audio id="audio_y_o" src="../audio/Y.m4a"></audio>
+                <audio id="audio_o" src="../audio/LETTER O.m4a"></audio>
+                <audio id="audio_yo" src="../audio/YO.mp3"></audio>
+
+                <audio id="audio_y_u" src="../audio/Y.m4a"></audio>
+                <audio id="audio_u" src="../audio/LETTER U.m4a"></audio>
+                <audio id="audio_yu" src="../audio/YU.m4a"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page4')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page6')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <div id="page6" class="screen">
+                <div class="blending-container">
+                    <!-- Row a -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio6_a', 'text6_a')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text6_a" class="blend-text">a</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text6_y_a" class="blend-text">y</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_y_a', 'text6_y_a')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text6_ay" class="blend-text result-text">ay</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_ay', 'text6_ay')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row e -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio6_e', 'text6_e')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text6_e" class="blend-text">e</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text6_y_e" class="blend-text">y</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_y_e', 'text6_y_e')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text6_ey" class="blend-text result-text">ey</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_ey', 'text6_ey')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row i -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio6_i', 'text6_i')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text6_i" class="blend-text">i</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text6_y_i" class="blend-text">y</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_y_i', 'text6_y_i')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text6_iy" class="blend-text result-text">iy</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_iy', 'text6_iy')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row o -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio6_o', 'text6_o')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text6_o" class="blend-text">o</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text6_y_o" class="blend-text">y</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_y_o', 'text6_y_o')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text6_oy" class="blend-text result-text">oy</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_oy', 'text6_oy')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row u -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio6_u', 'text6_u')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text6_u" class="blend-text">u</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text6_y_u" class="blend-text">y</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_y_u', 'text6_y_u')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text6_uy" class="blend-text result-text">uy</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio6_uy', 'text6_uy')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <audio id="audio6_a" src="../audio/LETTER A.m4a"></audio>
+                <audio id="audio6_y_a" src="../audio/Y.m4a"></audio>
+                <audio id="audio6_ay" src="../audio/AY.m4a"></audio>
+
+                <audio id="audio6_e" src="../audio/LETTER E.m4a"></audio>
+                <audio id="audio6_y_e" src="../audio/Y.m4a"></audio>
+                <audio id="audio6_ey" src="../audio/EY.m4a"></audio>
+
+                <audio id="audio6_i" src="../audio/LETTER I.m4a"></audio>
+                <audio id="audio6_y_i" src="../audio/Y.m4a"></audio>
+                <audio id="audio6_iy" src="../audio/IY.m4a"></audio>
+
+                <audio id="audio6_o" src="../audio/LETTER O.m4a"></audio>
+                <audio id="audio6_y_o" src="../audio/Y.m4a"></audio>
+                <audio id="audio6_oy" src="../audio/OY.m4a"></audio>
+
+                <audio id="audio6_u" src="../audio/LETTER U.m4a"></audio>
+                <audio id="audio6_y_u" src="../audio/Y.m4a"></audio>
+                <audio id="audio6_uy" src="../audio/UY.m4a"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page5')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page7')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <div id="page7" class="screen">
+                <audio id="page7_audio" src="../audio/SUBUKANG BASAHIN ANG MGA SUMUSUNOD NA PANTIG.m4a"></audio>
+                <div class="syllable-grid">
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_ya')">★</span><span class="pantig-text">ya</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_ye')">★</span><span class="pantig-text">ye</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yi')">★</span><span class="pantig-text">yi</span></span>
+
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yo')">★</span><span class="pantig-text">yo</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_ya')">★</span><span class="pantig-text">ya</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yu')">★</span><span class="pantig-text">yu</span></span>
+
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_ya')">★</span><span class="pantig-text">ya</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_ye')">★</span><span class="pantig-text">ye</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yi')">★</span><span class="pantig-text">yi</span></span>
+
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yi')">★</span><span class="pantig-text">yi</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yo')">★</span><span class="pantig-text">yo</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio_yu')">★</span><span class="pantig-text">yu</span></span>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page6')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page8')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <div id="page8" class="screen">
+                <audio id="page8_audio" src="../audio/SUBUKANG BASAHIN ANG MGA SUMUSUNOD NA PANTIG.m4a"></audio>
+                <div class="syllable-grid">
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_ay')">★</span><span class="pantig-text">ay</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_iy')">★</span><span class="pantig-text">iy</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_oy')">★</span><span class="pantig-text">oy</span></span>
+
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_uy')">★</span><span class="pantig-text">uy</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_ey')">★</span><span class="pantig-text">ey</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_iy')">★</span><span class="pantig-text">iy</span></span>
+
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_ay')">★</span><span class="pantig-text">ay</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_ey')">★</span><span class="pantig-text">ey</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_oy')">★</span><span class="pantig-text">oy</span></span>
+
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_uy')">★</span><span class="pantig-text">uy</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_ay')">★</span><span class="pantig-text">ay</span></span>
+                    <span class="grid-item"><span class="pantig-star"
+                            onclick="selectPantig(this,'audio6_uy')">★</span><span class="pantig-text">uy</span></span>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page7')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page8_5')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 8.5: Mahusay Celebration -->
+            <div id="page8_5" class="screen">
+                <audio id="mahusay_audio" src="../audio/MAHUSAY.m4a"></audio>
+                <audio id="trumpet_audio" src="../audio/trumpet.mp3"></audio>
+                <div class="mahusay-container">
+                    <div class="confetti" style="left: 10%;"></div>
+                    <div class="confetti" style="left: 20%; animation-delay: 0.2s;"></div>
+                    <div class="confetti" style="left: 30%;"></div>
+                    <div class="confetti" style="left: 40%; animation-delay: 1.2s;"></div>
+                    <div class="confetti" style="left: 50%;"></div>
+                    <div class="confetti" style="left: 60%; animation-delay: 0.7s;"></div>
+                    <div class="confetti" style="left: 70%;"></div>
+                    <div class="confetti" style="left: 80%; animation-delay: 0.4s;"></div>
+                    <div class="confetti" style="left: 90%;"></div>
+
+                    <h1 class="mahusay-title">MAHUSAY!</h1>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page8')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page9')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 9: Subukan Natin -->
+            <div id="page9" class="screen">
+                <audio id="subukan_natin_audio" src="../audio/SUBUKAN_NATIN.m4a"></audio>
+                <div class="subukan-container">
+                    <h1 class="subukan-title">Subukan<br>Natin!</h1>
+
+                    <div class="tara-btn" onclick="playWithDelay('subukan_natin_audio', 'page10', 2000)">
+                        <div class="tara-body">Tara</div>
+                        <div class="tara-head"></div>
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page8_5')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 10: Instruction -->
+            <div id="page10" class="screen">
+                <div class="instruction-container">
+
+                    <svg class="top-left-speaker" onclick="playAudio('instruction_audio', 'instruction_text_1')"
+                        viewBox="0 0 100 100">
+                        <g transform="translate(10, 10) rotate(-25, 40, 40)">
+                            <!-- Speaker body -->
+                            <path d="M 40,5 L 20,25 L 5,25 L 5,55 L 20,55 L 40,75 Z" fill="#8f9d86" stroke="#ffffff"
+                                stroke-width="3" stroke-linejoin="round" />
+                            <!-- Sound waves -->
+                            <path d="M 50,25 Q 60,40 50,55" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 60,15 Q 75,40 60,65" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 70,5 Q 90,40 70,75" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                        </g>
+                    </svg>
+
+                    <p id="instruction_text_1" class="instruction-text">
+                        Pagsasanay 1: Piliin ang <span class="highlight-yellow">unang</span><br>
+                        tunog ng mga sumusunod na<br>
+                        larawan.
+                    </p>
+
+                </div>
+
+                <audio id="instruction_audio" src="../audio/PAGSASANAY 1.mp3"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page9')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page11')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 11: Lesson Menu -->
+            <div id="page11" class="screen">
+                <div class="lesson-menu-container">
+                    <div class="lesson-grid">
+
+                        <!-- Notebook 1 -->
+                        <a href="lesson1.html" class="lesson-btn" data-lesson="lesson1" title="Lesson 1">
+                            <div class="notebook">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">1</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 2 -->
+                        <a href="lesson2.html" class="lesson-btn" data-lesson="lesson2" title="Lesson 2">
+                            <div class="notebook nb-blue">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">2</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 3 -->
+                        <a href="lesson3.html" class="lesson-btn" data-lesson="lesson3" title="Lesson 3">
+                            <div class="notebook nb-green">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">3</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 4 -->
+                        <a href="lesson4.html" class="lesson-btn" data-lesson="lesson4" title="Lesson 4">
+                            <div class="notebook nb-purple">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">4</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 5 -->
+                        <a href="lesson5.html" class="lesson-btn" data-lesson="lesson5" title="Lesson 5">
+                            <div class="notebook nb-red">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">5</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page10')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="p2-cta"
+                    style="position: absolute; bottom: 12px; right: 18px; display: flex; align-items: center; gap: 10px; cursor: pointer;"
+                    onclick="showPage('page13')">
+                    <span
+                        style="color: white; font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.4); white-space: nowrap;">Pagsasanay
+                        2</span>
+                    <div class="nav-btn" style="position: static;">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 13: Subukan Natin (Pagsasanay 2) -->
+            <div id="page13" class="screen">
+                <audio id="subukan_natin_audio_2" src="../audio/SUBUKAN_NATIN.m4a"></audio>
+                <div class="subukan-container">
+                    <h1 class="subukan-title">Subukan<br>Natin!</h1>
+
+                    <div class="tara-btn" onclick="playWithDelay('subukan_natin_audio_2', 'page12', 2000)">
+                        <div class="tara-body">Tara</div>
+                        <div class="tara-head"></div>
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page11')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 12: Pagsasanay 2 Instruction -->
+            <div id="page12" class="screen">
+                <div class="instruction-container">
+
+                    <svg class="top-left-speaker" onclick="playAudio('instruction_audio2', 'instruction_text_2')"
+                        viewBox="0 0 100 100">
+                        <g transform="translate(10, 10) rotate(-25, 40, 40)">
+                            <!-- Speaker body -->
+                            <path d="M 40,5 L 20,25 L 5,25 L 5,55 L 20,55 L 40,75 Z" fill="#8f9d86" stroke="#ffffff"
+                                stroke-width="3" stroke-linejoin="round" />
+                            <!-- Sound waves -->
+                            <path d="M 50,25 Q 60,40 50,55" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 60,15 Q 75,40 60,65" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 70,5 Q 90,40 70,75" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                        </g>
+                    </svg>
+
+                    <p id="instruction_text_2" class="instruction-text">
+                        Pagsasanay 2: Basahin ang <span class="highlight-yellow">huling</span><br>
+                        pangungusap kasabay ng iyong guro.
+                        Piliin and larawan na tinutukoy nito.
+                    </p>
+
+                </div>
+
+                <audio id="instruction_audio2" src="../audio/PAGSASANAY 2.mp3"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page13')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page14')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 14: Pagsasanay 2 Lesson Menu -->
+            <div id="page14" class="screen">
+                <div class="lesson-menu-container">
+                    <div class="lesson-grid">
+
+                        <!-- Notebook 1 -->
+                        <a href="lesson6.html" class="lesson-btn" data-lesson="lesson6" title="Lesson 6">
+                            <div class="notebook nb-purple">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">1</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 2 -->
+                        <a href="lesson7.html" class="lesson-btn" data-lesson="lesson7" title="Lesson 7">
+                            <div class="notebook nb-red">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">2</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 3 -->
+                        <a href="lesson8.html" class="lesson-btn" data-lesson="lesson8" title="Lesson 8">
+                            <div class="notebook nb-green">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">3</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 4 -->
+                        <a href="lesson9.html" class="lesson-btn" data-lesson="lesson9" title="Lesson 9">
+                            <div class="notebook nb-orange">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">4</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page12')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page15')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 15: Basa Tayo -->
+            <div id="page15" class="screen">
+                <div class="subukan-container">
+                    <h1 class="subukan-title">Basa Tayo!</h1>
+
+                    <div class="tara-btn" onclick="showPage('page16')">
+                        <div class="tara-body">Tara</div>
+                        <div class="tara-head"></div>
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page14')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16: Ako Kaya -->
+            <div id="page16" class="screen">
+                <div style="
+                    width: min(86%, 980px);
+                    font-family: 'Fredoka', sans-serif;
+                    font-size: clamp(32px, 3.6vw, 62px);
+                    font-weight: 600;
+                    line-height: 1.45;
+                    color: #ffffff;
+                    text-align: center;
+                    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+                    white-space: pre-line;
+                    padding: 20px 24px;
+                    box-sizing: border-box;
+                ">Ako kaya?
+Si Tatay ay may hawak na yero.
+Si nanay ay may saya.
+Si ate ay may yelo.
+Si kuya ay may yeso.
+Ako kaya?
+Ay yoyo!
+Gusto ko ito.</div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page15')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_blank')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.1: Ako Kaya Question -->
+            <div id="page16_blank" class="screen">
+                <div class="ako-quiz-container">
+                    <p class="ako-quiz-question">1. Sino ang may hawak na yero?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoice(this, false)">A. ate</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoice(this, false)">B. kuya</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoice(this, false)">C. nanay</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoice(this, true)">D. tatay</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel" id="ako-feedback-panel">
+                    <div class="icon" id="ako-feedback-icon"></div>
+                    <div class="title" id="ako-feedback-title"></div>
+                    <div class="sub-text" id="ako-feedback-sub"></div>
+                </div>
+
+                <audio id="ako-sfx-correct" src="../audio/correct.mp3" preload="auto"></audio>
+                <audio id="ako-sfx-wrong" src="../audio/wrong.mp3" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_blank_2')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.2: Blank Chalkboard -->
+            <div id="page16_blank_2" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="C. nanay">
+                    <p class="ako-quiz-question">2. Sino ang may saya?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">A. ate</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. kuya</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">C. nanay</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">D. tatay</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_blank_3')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.3: Blank Chalkboard -->
+            <div id="page16_blank_3" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="A. ate">
+                    <p class="ako-quiz-question">3. Sino ang may yelo?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">A. ate</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. kuya</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">C. nanay</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">D. tatay</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_2')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_blank_4')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.4: Blank Chalkboard -->
+            <div id="page16_blank_4" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="C. kuya">
+                    <p class="ako-quiz-question">4. Sino ang may yeso?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">A. ako</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. ate</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">C. kuya</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">D. nanay</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_3')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_blank_5')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.5: Blank Chalkboard -->
+            <div id="page16_blank_5" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="A. ako">
+                    <p class="ako-quiz-question">5. Sino ang may gusto ng yoyo?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">A. ako</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. ate</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_4')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_1')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.1 -->
+            <div id="page17_1" class="screen">
+                <audio id="p17_q1_audio" src="../audio/TANONG 1.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        1. Sino ang may hawak na yero?
+                        <svg class="q-speaker" onclick="playAudio('p17_q1_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si tatay ang may hawak na yero."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_5')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_2')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.2 -->
+            <div id="page17_2" class="screen">
+                <audio id="p17_q2_audio" src="../audio/TANONG 2.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        2. Sino ang may saya?
+                        <svg class="q-speaker" onclick="playAudio('p17_q2_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si nanay ang may saya."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_1')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_3')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.3 -->
+            <div id="page17_3" class="screen">
+                <audio id="p17_q3_audio" src="../audio/TANONG 3.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        3. Sino ang may yelo?
+                        <svg class="q-speaker" onclick="playAudio('p17_q3_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si ate ang may yelo."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_2')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_4')">
+                    <div class="arrow"></div>
+                </div>
+            </div>  
+
+            <!-- Page 17.4 -->
+            <div id="page17_4" class="screen">
+                <audio id="p17_q4_audio" src="../audio/TANONG 4.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        4. Sino ang may yeso?
+                        <svg class="q-speaker" onclick="playAudio('p17_q4_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si kuya ang may yeso."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_3')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_5')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.5 -->
+            <div id="page17_5" class="screen">
+                <audio id="p17_q5_audio" src="../audio/TANONG 5.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        5. Sino ang may gusto ng yoyo?
+                        <svg class="q-speaker" onclick="playAudio('p17_q5_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Ako ang may gusto ng yoyo."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_4')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page18')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 18: Subukan Natin (end of Basa Tayo) -->
+            <div id="page18" class="screen">
+                <div class="subukan-container">
+                    <h1 class="subukan-title">Subukan<br>Natin!</h1>
+
+                    <div class="tara-btn" onclick="showPage('page19')">
+                        <div class="tara-body">Tara</div>
+                        <div class="tara-head"></div>
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_5')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 19: Pagsasanay 3 Instruction -->
+            <div id="page19" class="screen">
+                <div class="instruction-container">
+
+                    <svg class="top-left-speaker" onclick="playAudio('instruction_audio3', 'instruction_text_3')"
+                        viewBox="0 0 100 100">
+                        <g transform="translate(10, 10) rotate(-25, 40, 40)">
+                            <!-- Speaker body -->
+                            <path d="M 40,5 L 20,25 L 5,25 L 5,55 L 20,55 L 40,75 Z" fill="#8f9d86" stroke="#ffffff"
+                                stroke-width="3" stroke-linejoin="round" />
+                            <!-- Sound waves -->
+                            <path d="M 50,25 Q 60,40 50,55" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 60,15 Q 75,40 60,65" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 70,5 Q 90,40 70,75" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                        </g>
+                    </svg>
+
+                    <p id="instruction_text_3" class="instruction-text">
+                        Pagsasanay 3: Piliin ang larawan<br>
+                        ng alaga ng mga tauhan sa<br>
+                        kuwentong ating binasa.
+                    </p>
+
+                </div>
+
+                <audio id="instruction_audio3" src="../audio/PAGSASANAY 3.m4a"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page18')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="window.location.href='lesson10.html'">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let akoFeedbackTimer = null;
+
+        function selectPantig(starEl, audioId) {
+            // Find the closest page screen
+            const page = starEl.closest('.screen');
+
+            // Deactivate all stars and texts in this page
+            page.querySelectorAll('.pantig-star').forEach(s => s.classList.remove('active'));
+            page.querySelectorAll('.pantig-text').forEach(t => {
+                t.classList.remove('active');
+                // Reset animation so it can replay
+                void t.offsetWidth;
+            });
+
+            // Activate the clicked star and its sibling text
+            starEl.classList.add('active');
+            const textEl = starEl.nextElementSibling;
+            if (textEl) {
+                textEl.classList.remove('active');
+                void textEl.offsetWidth; // force reflow to replay animation
+                textEl.classList.add('active');
+            }
+
+            if (audioId) {
+                const audio = document.getElementById(audioId);
+                if (audio) { audio.currentTime = 0; audio.play(); }
+            }
+        }
+
+        // Show answer reveal text when clicking the SVG icon
+        function showAnswer(iconEl) {
+            const answerEl = iconEl.nextElementSibling;
+            if (answerEl && answerEl.classList.contains('reveal-answer')) {
+                answerEl.classList.add('show');
+            }
+        }
+
+        function goToNextQuizScreen(screenEl) {
+            if (!screenEl) return;
+
+            const nextBtn = screenEl.querySelector('.nav-btn:not(.back-btn)');
+            if (nextBtn && typeof nextBtn.click === 'function') {
+                nextBtn.click();
+            }
+        }
+
+        function checkAkoKayaChoice(choiceEl, isCorrect) {
+            if (!choiceEl) return;
+
+            const screen = choiceEl.closest('.screen');
+            const container = choiceEl.closest('.ako-quiz-container');
+            if (!container) return;
+
+            const options = container.querySelectorAll('.ako-quiz-option');
+            options.forEach(option => {
+                option.classList.remove('choice-correct', 'choice-wrong');
+                option.disabled = true;
+            });
+
+            const panel = document.getElementById('ako-feedback-panel');
+            const icon = document.getElementById('ako-feedback-icon');
+            const title = document.getElementById('ako-feedback-title');
+            const sub = document.getElementById('ako-feedback-sub');
+            const sfx = document.getElementById(isCorrect ? 'ako-sfx-correct' : 'ako-sfx-wrong');
+
+            if (sfx) {
+                sfx.currentTime = 0;
+                sfx.play().catch(() => { });
+            }
+
+            if (isCorrect) {
+                choiceEl.classList.add('choice-correct');
+                if (panel) panel.className = 'lesson-feedback-panel show correct';
+                if (icon) icon.textContent = '✅';
+                if (title) title.textContent = 'Tama! 🥳';
+                if (sub) sub.textContent = 'Ang tamang sagot ay - D. tatay.';
+            } else {
+                choiceEl.classList.add('choice-wrong');
+                if (panel) panel.className = 'lesson-feedback-panel show wrong';
+                if (icon) icon.textContent = '❌';
+                if (title) title.textContent = 'Mali 😢';
+                if (sub) sub.textContent = 'Subukan muli!';
+            }
+
+            if (akoFeedbackTimer) {
+                clearTimeout(akoFeedbackTimer);
+            }
+
+            akoFeedbackTimer = setTimeout(() => {
+                if (panel) panel.className = 'lesson-feedback-panel';
+
+                options.forEach(option => {
+                    option.disabled = false;
+                    if (!isCorrect) {
+                        option.classList.remove('choice-correct', 'choice-wrong');
+                    }
+                });
+
+                if (isCorrect) {
+                    goToNextQuizScreen(screen);
+                }
+            }, 1300);
+        }
+
+        function checkAkoKayaChoiceBlank(choiceEl, isCorrect) {
+            if (!choiceEl) return;
+
+            const screen = choiceEl.closest('.screen');
+            const container = choiceEl.closest('.ako-quiz-container');
+            if (!screen || !container) return;
+
+            const options = container.querySelectorAll('.ako-quiz-option');
+            options.forEach(option => {
+                option.classList.remove('choice-correct', 'choice-wrong');
+                option.disabled = true;
+            });
+
+            const panel = screen.querySelector('.lesson-feedback-panel');
+            const icon = panel ? panel.querySelector('.icon') : null;
+            const title = panel ? panel.querySelector('.title') : null;
+            const sub = panel ? panel.querySelector('.sub-text') : null;
+            const correctAnswer = container.getAttribute('data-correct-answer') || '';
+            const sfx = document.getElementById(isCorrect ? 'ako-sfx-correct' : 'ako-sfx-wrong');
+
+            if (sfx) {
+                sfx.currentTime = 0;
+                sfx.play().catch(() => { });
+            }
+
+            if (isCorrect) {
+                choiceEl.classList.add('choice-correct');
+                if (panel) panel.className = 'lesson-feedback-panel show correct';
+                if (icon) icon.textContent = '✅';
+                if (title) title.textContent = 'Tama! 🥳';
+                if (sub) sub.textContent = `Ang tamang sagot ay - ${correctAnswer}.`;
+            } else {
+                choiceEl.classList.add('choice-wrong');
+                if (panel) panel.className = 'lesson-feedback-panel show wrong';
+                if (icon) icon.textContent = '❌';
+                if (title) title.textContent = 'Mali 😢';
+                if (sub) sub.textContent = 'Subukan muli!';
+            }
+
+            if (screen._akoBlankTimer) {
+                clearTimeout(screen._akoBlankTimer);
+            }
+
+            screen._akoBlankTimer = setTimeout(() => {
+                if (panel) panel.className = 'lesson-feedback-panel';
+
+                options.forEach(option => {
+                    option.disabled = false;
+                    if (!isCorrect) {
+                        option.classList.remove('choice-correct', 'choice-wrong');
+                    }
+                });
+
+                if (isCorrect) {
+                    goToNextQuizScreen(screen);
+                }
+            }, 1300);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 13 - Marungko</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* Layout for Lesson 13 */
+        .lesson13-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 40px 60px;
+            box-sizing: border-box;
+        }
+
+        /* Left side character */
+        .character-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            justify-content: center;
+            padding-bottom: 0;
+        }
+
+        .character-section img {
+            max-height: 500px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+            margin-bottom: 0px;
+            transform: translateY(-20px);
+        }
+
+        .character-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 72px;
+            font-weight: 500;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            letter-spacing: 2px;
+            margin-top: -30px;
+        }
+
+        /* Right side cards */
+        .cards-section {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Polaroid style card */
+        .choice-card {
+            width: 300px;
+            background: white;
+            border: 6px solid #222;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .choice-card-img {
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-bottom: 2px solid #ccc;
+            overflow: hidden;
+        }
+
+        .choice-card-img img {
+            max-width: 130%;
+            max-height: 130%;
+            object-fit: contain;
+            transform: scale(1.25);
+        }
+
+        .choice-card-text {
+            padding: 20px 0;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 48px;
+            font-weight: 500;
+            color: black;
+            letter-spacing: 1px;
+        }
+
+        /* Back button */
+        .back-btn-custom {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .back-btn-custom:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .back-btn-custom::before {
+            content: '';
+            display: inline-block;
+            border: solid white;
+            border-width: 0 5px 5px 0;
+            padding: 6px;
+            transform: rotate(135deg);
+            margin-left: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <a class="index-return-btn" href="../index.html" data-transition-direction="back" aria-label="Return to index" title="Return">Return</a>
+    <div class="frame">
+        <div class="chalkboard">
+
+            <!-- DECODE Logo top right -->
+            <div class="logo-placeholder">
+                <img src="../images/decode.png" alt="Logo">
+            </div>
+
+            <div class="doodle-layer" aria-hidden="true">
+                <span class="doodle cloud" style="--x: 12%; --y: 18%; --w: 180px; --h: 80px; --t: 28s;"></span>
+                <span class="doodle cloud" style="--x: 70%; --y: 12%; --w: 160px; --h: 70px; --t: 26s;"></span>
+                <span class="doodle cloud" style="--x: 86%; --y: 62%; --w: 200px; --h: 90px; --t: 30s;"></span>
+                <span class="doodle blob" style="--x: 20%; --y: 70%; --w: 140px; --h: 100px; --t: 24s;"></span>
+                <span class="doodle blob" style="--x: 56%; --y: 36%; --w: 120px; --h: 90px; --t: 22s;"></span>
+                <span class="doodle sparkle" style="--x: 32%; --y: 22%; --size: 16px; --t: 5.5s;"></span>
+                <span class="doodle sparkle" style="--x: 62%; --y: 18%; --size: 12px; --t: 6.5s;"></span>
+                <span class="doodle sparkle" style="--x: 78%; --y: 40%; --size: 14px; --t: 7s;"></span>
+                <span class="doodle sparkle" style="--x: 42%; --y: 80%; --size: 10px; --t: 6s;"></span>
+            </div>
+
+            <!-- Main screen -->
+            <div id="lesson13" class="screen active">
+
+                <div class="lesson13-container">
+
+                    <!-- Left Character: Lolo -->
+                    <div class="character-section">
+                        <img src="../images/lolo.png" alt="Lolo">
+                        <div class="character-text">Lolo</div>
+                    </div>
+
+                    <!-- Right Cards: maya and bibe -->
+                    <div class="cards-section">
+                        <!-- Maya Card (Correct Answer) -->
+                        <div class="choice-card" onclick="checkAnswer(this, true)">
+                            <div class="choice-card-img">
+                                <img src="../images/maya.png" alt="Maya">
+                            </div>
+                            <div class="choice-card-text">maya</div>
+                        </div>
+
+                        <!-- Bibe Card (Wrong Answer) -->
+                        <div class="choice-card" onclick="checkAnswer(this, false)">
+                            <div class="choice-card-img">
+                                <img src="../images/bibe.png" alt="Bibe">
+                            </div>
+                            <div class="choice-card-text">bibe</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Feedback panel -->
+                <div class="lesson-feedback-panel" id="l13-feedback-panel">
+                    <div class="icon" id="l13-feedback-icon"></div>
+                    <div class="title" id="l13-feedback-title"></div>
+                    <div class="sub-text" id="l13-feedback-sub"></div>
+                </div>
+
+                <!-- Custom back button (bottom left) -->
+                <div class="back-btn-custom" onclick="navigateWithSlide('lesson10.html', 'back')"></div>
+
+            </div>
+
+            <!-- Sound effects -->
+            <audio id="sfx-correct" src="../audio/correct.mp3" preload="auto"></audio>
+            <audio id="sfx-wrong" src="../audio/wrong.mp3" preload="auto"></audio>
+
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(el, isCorrect) {
+            const panel = document.getElementById('l13-feedback-panel');
+            const icon = document.getElementById('l13-feedback-icon');
+            const title = document.getElementById('l13-feedback-title');
+            const sub = document.getElementById('l13-feedback-sub');
+
+            // Reset selection style if any
+            document.querySelectorAll('.choice-card').forEach(c => {
+                c.style.outline = 'none';
+                c.style.filter = '';
+            });
+
+            // Play sound
+            const sfx = document.getElementById(isCorrect ? 'sfx-correct' : 'sfx-wrong');
+            sfx.currentTime = 0;
+            sfx.play();
+
+            if (isCorrect) {
+                panel.className = 'lesson-feedback-panel show correct';
+                icon.textContent = String.fromCodePoint(0x1f31f);
+                title.textContent = 'Tama!';
+                sub.textContent = 'Napakagaling mo!';
+                el.style.outline = '6px solid #2ecc71';
+                el.style.filter = 'brightness(1.15)';
+            } else {
+                panel.className = 'lesson-feedback-panel show wrong';
+                icon.textContent = String.fromCodePoint(0x1f60a);
+                title.textContent = 'Subukan Muli!';
+                sub.textContent = 'Kaya mo yan, try ulit!';
+                el.style.outline = '6px solid #e74c3c';
+                el.style.filter = 'brightness(0.85)';
+            }
+
+            setTimeout(() => {
+                panel.className = 'lesson-feedback-panel';
+                el.style.outline = 'none';
+                el.style.filter = 'none';
+
+                // Navigation logic
+                if (isCorrect) {
+                    localStorage.setItem('lesson13_done', '1');
+                    localStorage.removeItem('lesson13_wrong');
+                    navigateWithSlide('lesson10.html', 'back');
+                } else {
+                    localStorage.setItem('lesson13_wrong', '1');
+                    localStorage.removeItem('lesson13_done');
+                    navigateWithSlide('lesson10.html', 'back');
+                }
+            }, 1800);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marungko - Select Your Material</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index-style.css">
+    <script src="index-script.js" defer></script>
+</head>
+
+<body>
+    <div class="frame">
+        <div class="chalkboard">
+            <!-- Logo in Top Right -->
+            <div class="logo-placeholder">
+                <img src="./images/decode.png" alt="Logo">
+            </div>
+
+            <!-- Animated Doodles -->
+            <div class="doodle-layer" aria-hidden="true">
+                <span class="doodle cloud" style="--x: 8%; --y: 15%; --w: 160px; --h: 70px; --t: 28s;"></span>
+                <span class="doodle cloud" style="--x: 78%; --y: 20%; --w: 180px; --h: 80px; --t: 26s;"></span>
+                <span class="doodle star" style="--x: 15%; --y: 75%; --size: 18px; --t: 5.2s;"></span>
+                <span class="doodle star" style="--x: 50%; --y: 40%; --size: 16px; --t: 4.8s;"></span>
+                <span class="doodle star" style="--x: 28%; --y: 25%; --size: 17px; --t: 5.5s;"></span>
+                <span class="doodle star" style="--x: 85%; --y: 65%; --size: 15px; --t: 6.5s;"></span>
+                <span class="doodle star" style="--x: 92%; --y: 35%; --size: 14px; --t: 7s;"></span>
+            </div>
+
+            <!-- Foreground decorative stickers and objects -->
+            <div class="foreground-layer" aria-hidden="true">
+                <span class="fg-item balloon balloon-left"></span>
+                <span class="fg-item balloon balloon-right"></span>
+                <span class="fg-item paper-plane plane-top"></span>
+                <span class="fg-item sticker-star"></span>
+                <span class="fg-item crayon crayon-bottom"></span>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content">
+                <div class="header">
+                    <h1 class="title">MARUNGKO</h1>
+                    <p class="subtitle">Choose Your Learning Material</p>
+                </div>
+
+                <div class="cards-container">
+                    <!-- M1 Card -->
+                    <div class="card m1-card" onclick="navigateToM1()">
+                        <div class="card-glow"></div>
+                        <div class="card-inner">
+                            <div class="card-number">M1</div>
+                            <div class="card-emoji"><img class="card-emoji-image" src="./images/book.png" alt="Book icon"></div>
+                            <h2 class="card-title">DECODE Material 1</h2>
+                            <p class="card-description">Master letters and basic words with interactive lessons</p>
+                            <div class="card-button">
+                                <span>ENTER</span>
+                                <div class="arrow-icon">→</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- M3 Card -->
+                    <div class="card m3-card" onclick="navigateToM3()">
+                        <div class="card-glow"></div>
+                        <div class="card-inner">
+                            <div class="card-number">M3</div>
+                            <div class="card-emoji"><img class="card-emoji-image" src="./images/book.png" alt="Book icon"></div>
+                            <h2 class="card-title">DECODE Material 3</h2>
+                            <p class="card-description">Unleash creativity with drawing tools and advanced lessons</p>
+                            <div class="card-button">
+                                <span>ENTER</span>
+                                <div class="arrow-icon">→</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-text">
+                    <p>✨ Interactive Learning Experience ✨</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

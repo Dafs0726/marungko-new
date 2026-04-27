@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marungko Interactive Chalkboard - M1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <a class="index-return-btn" href="../index.html" data-transition-direction="back" aria-label="Return to index" title="Return">Return</a>
+    <div class="frame">
+        <div class="chalkboard">
+            <div class="logo-placeholder">
+                <img src="../images/decode.png" alt="Logo">
+            </div>
+            <div class="doodle-layer" aria-hidden="true">
+                <span class="doodle cloud" style="--x: 12%; --y: 18%; --w: 180px; --h: 80px; --t: 28s;"></span>
+                <span class="doodle cloud" style="--x: 70%; --y: 12%; --w: 160px; --h: 70px; --t: 26s;"></span>
+                <span class="doodle cloud" style="--x: 86%; --y: 62%; --w: 200px; --h: 90px; --t: 30s;"></span>
+                <span class="doodle star" style="--x: 20%; --y: 70%; --size: 20px; --t: 5.2s;"></span>
+                <span class="doodle star" style="--x: 56%; --y: 36%; --size: 16px; --t: 4.8s;"></span>
+                <span class="doodle star" style="--x: 32%; --y: 22%; --size: 18px; --t: 5.5s;"></span>
+                <span class="doodle star" style="--x: 62%; --y: 18%; --size: 14px; --t: 6.5s;"></span>
+                <span class="doodle star" style="--x: 78%; --y: 40%; --size: 17px; --t: 7s;"></span>
+                <span class="doodle star" style="--x: 42%; --y: 80%; --size: 12px; --t: 6s;"></span>
+                <span class="doodle star" style="--x: 9%; --y: 48%; --size: 14px; --t: 6.8s;"></span>
+                <span class="doodle star" style="--x: 90%; --y: 28%; --size: 15px; --t: 5.9s;"></span>
+            </div>
+
+            <!-- Page 1: Title -->
+            <div id="page1" class="screen active">
+                <h1>Marungko</h1>
+                <p><b>DECODE</b> with <span class="highlight">ICT Digitalized Material 1</span></p>
+                <div class="nav-btn" onclick="showPage('page2')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 2: Letters Display (Mm Aa Ss) -->
+            <div id="page2" class="screen">
+                <div class="letters-slide">
+                    <!-- Letters Row -->
+                    <div class="letters-row">
+                        <!-- Mm -->
+                        <div class="letters-item">
+                            <p class="letters-glyph">Mm</p>
+                            <svg class="speaker-icon" onclick="playAudio('mmAudio')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                        <!-- Aa -->
+                        <div class="letters-item">
+                            <p class="letters-glyph">Aa</p>
+                            <svg class="speaker-icon" onclick="playAudio('aaAudio')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                        <!-- Ss -->
+                        <div class="letters-item">
+                            <p class="letters-glyph">Ss</p>
+                            <svg class="speaker-icon" onclick="playAudio('ssAudio')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                    </div>
+
+                    <!-- Audio Elements -->
+                    <audio id="mmAudio" src="../audio/letter_m.m4a" preload="auto"></audio>
+                    <audio id="aaAudio" src="../audio/letter_a.m4a" preload="auto"></audio>
+                    <audio id="ssAudio" src="../audio/letter_s.m4a" preload="auto"></audio>
+
+                    <!-- Navigation Buttons -->
+                    <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page1')">
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="nav-btn" onclick="showPage('page3')">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 3: Words with Images (Mais, Aso, Susi) -->
+            <div id="page3" class="screen">
+                <div class="words-slide">
+                    <!-- Letters Row at Top -->
+                    <div class="words-letters-row">
+                        <p class="words-letter">Mm</p>
+                        <p class="words-letter">Aa</p>
+                        <p class="words-letter">Ss</p>
+                    </div>
+
+                    <!-- Content Row (Images, Words, Speakers) -->
+                    <div class="words-cards-row">
+                        <!-- Mais (Corn) -->
+                        <div class="word-card">
+                            <div class="word-image-box word-image-box--blue">
+                                <img class="word-image" src="../images/corn.png" alt="Mais">
+                            </div>
+                            <div class="word-label">
+                                <span class="word-label-first">m</span><span>ais</span>
+                            </div>
+                            <svg class="speaker-icon" onclick="playAudio('maisAudio')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                        <!-- Aso (Dog) -->
+                        <div class="word-card">
+                            <div class="word-image-box word-image-box--yellow">
+                                <img class="word-image" src="../images/aso2.png" alt="Aso">
+                            </div>
+                            <div class="word-label">
+                                <span class="word-label-first">a</span><span>so</span>
+                            </div>
+                            <svg class="speaker-icon" onclick="playAudio('asoAudio')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                        <!-- Susi (Key) -->
+                        <div class="word-card">
+                            <div class="word-image-box word-image-box--pink">
+                                <img class="word-image" src="../images/susi.png" alt="Susi">
+                            </div>
+                            <div class="word-label">
+                                <span class="word-label-first">s</span><span>usi</span>
+                            </div>
+                            <svg class="speaker-icon" onclick="playAudio('usiAudio')" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                            </svg>
+                        </div>
+
+                    </div>
+
+                    <!-- Audio Elements -->
+                    <audio id="maisAudio" src="../audio/Mais.m4a" preload="auto"></audio>
+                    <audio id="asoAudio" src="../audio/Aso.m4a" preload="auto"></audio>
+                    <audio id="usiAudio" src="../audio/Susi.m4a" preload="auto"></audio>
+
+                    <!-- Navigation Buttons -->
+                    <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page2')">
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="nav-btn" onclick="showPage('page4')">
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 4: Subukan Natin -->
+            <div id="page4" class="screen">
+                <audio id="subukan_natin_audio" src="../audio/SUBUKAN_NATIN.m4a" preload="auto"></audio>
+                <div class="subukan-container">
+                    <h1 class="subukan-title">Subukan<br>Natin!</h1>
+
+                    <div class="tara-btn" onclick="playWithDelay('subukan_natin_audio', 'page5', 2000)">
+                        <div class="tara-body">Tara</div>
+                        <div class="tara-head"></div>
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page3')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 5: Pagsasanay 1 -->
+            <div id="page5" class="screen">
+                <div class="instruction-container">
+
+                    <svg class="top-left-speaker" onclick="playAudio('instruction_audio', 'instruction_text_1')"
+                        viewBox="0 0 100 100">
+                        <g transform="translate(10, 10) rotate(-25, 40, 40)">
+                            <!-- Speaker body -->
+                            <path d="M 40,5 L 20,25 L 5,25 L 5,55 L 20,55 L 40,75 Z" fill="#8f9d86" stroke="#ffffff"
+                                stroke-width="3" stroke-linejoin="round" />
+                            <!-- Sound waves -->
+                            <path d="M 50,25 Q 60,40 50,55" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 60,15 Q 75,40 60,65" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 70,5 Q 90,40 70,75" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                        </g>
+                    </svg>
+
+                    <p id="instruction_text_1" class="instruction-text">
+                        Pagsasanay 1: Piliin ang <span class="highlight-yellow">unang</span><br>
+                        tunog ng mga sumusunod na<br>
+                        larawan.
+                    </p>
+
+                </div>
+
+                <audio id="instruction_audio" src="../audio/PAGSASANAY 1.mp3" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page4')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page6')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 6: Lesson Menu with 6 Notebooks -->
+            <div id="page6" class="screen">
+                <div class="lesson-menu-container">
+                    <div class="lesson-grid">
+
+                        <!-- Notebook 1 -->
+                        <a href="question1.html" class="lesson-btn" data-lesson="question1" title="Question 1">
+                            <div class="notebook">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">1</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 2 -->
+                        <a href="question2.html" class="lesson-btn" data-lesson="question2" title="Question 2">
+                            <div class="notebook nb-blue">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">2</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 3 -->
+                        <a href="question3.html" class="lesson-btn" data-lesson="question3" title="Question 3">
+                            <div class="notebook nb-green">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">3</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 4 -->
+                        <a href="question4.html" class="lesson-btn" data-lesson="question4" title="Question 4">
+                            <div class="notebook nb-purple">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">4</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 5 -->
+                        <a href="question5.html" class="lesson-btn" data-lesson="question5" title="Question 5">
+                            <div class="notebook nb-red">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">5</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 6 -->
+                        <a href="question6.html" class="lesson-btn" data-lesson="question6" title="Question 6">
+                            <div class="notebook nb-orange">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">6</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page5')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page7')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 7: Pagsasanay 2 -->
+            <div id="page7" class="screen">
+                <div class="instruction-container">
+
+                    <svg class="top-left-speaker" onclick="playAudio('instruction_audio_2', 'instruction_text_2')"
+                        viewBox="0 0 100 100">
+                        <g transform="translate(10, 10) rotate(-25, 40, 40)">
+                            <!-- Speaker body -->
+                            <path d="M 40,5 L 20,25 L 5,25 L 5,55 L 20,55 L 40,75 Z" fill="#8f9d86" stroke="#ffffff"
+                                stroke-width="3" stroke-linejoin="round" />
+                            <!-- Sound waves -->
+                            <path d="M 50,25 Q 60,40 50,55" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 60,15 Q 75,40 60,65" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                            <path d="M 70,5 Q 90,40 70,75" fill="none" stroke="#ffffff" stroke-width="4"
+                                stroke-linecap="round" />
+                        </g>
+                    </svg>
+
+                    <p id="instruction_text_2" class="instruction-text">
+                        Pagsasanay 2: Piliin ang <span class="highlight-yellow">huling</span><br>
+                        tunog ng mga sumusunod na<br>
+                        larawan.
+                    </p>
+
+                </div>
+
+                <audio id="instruction_audio_2" src="../audio/PAGSASANAY 2.mp3" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page6')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page8')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 8: Lesson Menu A with 6 Notebooks -->
+            <div id="page8" class="screen">
+                <div class="lesson-menu-container">
+                    <div class="lesson-grid">
+
+                        <!-- Notebook 1A -->
+                        <a href="question1A.html" class="lesson-btn" data-lesson="question1A" title="Question 1A">
+                            <div class="notebook">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">1</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 2A -->
+                        <a href="question2A.html" class="lesson-btn" data-lesson="question2A" title="Question 2A">
+                            <div class="notebook nb-blue">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">2</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 3A -->
+                        <a href="question3A.html" class="lesson-btn" data-lesson="question3A" title="Question 3A">
+                            <div class="notebook nb-green">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">3</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 4A -->
+                        <a href="question4A.html" class="lesson-btn" data-lesson="question4A" title="Question 4A">
+                            <div class="notebook nb-purple">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">4</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 5A -->
+                        <a href="question5A.html" class="lesson-btn" data-lesson="question5A" title="Question 5A">
+                            <div class="notebook nb-red">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">5</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 6A -->
+                        <a href="question6A.html" class="lesson-btn" data-lesson="question6A" title="Question 6A">
+                            <div class="notebook nb-orange">
+                                <div class="nb-spine"></div>
+                                <div class="nb-page">
+                                    <div class="nb-lines">
+                                        <span></span><span></span><span></span><span></span>
+                                    </div>
+                                    <div class="nb-number">6</div>
+                                </div>
+                                <div class="nb-rings">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page7')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page9')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 9: Blending Practice (M, A, S) -->
+            <div id="page9" class="screen">
+                <div class="blending-container">
+                    <!-- Row 1: m + a = ma -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio9_m', 'text9_m1')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text9_m1" class="blend-text">m</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text9_a1" class="blend-text">a</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio9_a', 'text9_a1')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text9_ma" class="blend-text result-text">ma</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio9_m', 'audio9_a'], 'text9_ma')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row 2: a + m = am -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio9_a', 'text9_a2')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text9_a2" class="blend-text">a</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text9_m2" class="blend-text">m</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio9_m', 'text9_m2')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text9_am" class="blend-text result-text">am</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio9_a', 'audio9_m'], 'text9_am')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row 3: s + a = sa -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio9_s', 'text9_s3')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text9_s3" class="blend-text">s</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text9_a3" class="blend-text">a</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio9_a', 'text9_a3')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text9_sa" class="blend-text result-text">sa</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio9_s', 'audio9_a'], 'text9_sa')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <!-- Row 4: a + s = as -->
+                    <div class="blend-row">
+                        <svg class="speaker-icon" onclick="playAudio('audio9_a', 'text9_a4')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <span id="text9_a4" class="blend-text">a</span>
+                        <div class="blend-arrow"><svg width="60" height="24" viewBox="0 0 60 24">
+                                <path d="M0,10 L45,10 L45,4 L60,12 L45,20 L45,14 L0,14 Z" fill="#ffb400" />
+                            </svg></div>
+                        <span id="text9_s4" class="blend-text">s</span>
+                        <svg class="speaker-icon" onclick="playAudio('audio9_s', 'text9_s4')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                        <div class="blend-spacer"></div>
+                        <span id="text9_as" class="blend-text result-text">as</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio9_a', 'audio9_s'], 'text9_as')" viewBox="0 0 24 24">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <audio id="audio9_m" src="../audio/letter_m.m4a" preload="auto"></audio>
+                <audio id="audio9_a" src="../audio/letter_a.m4a" preload="auto"></audio>
+                <audio id="audio9_s" src="../audio/letter_s.m4a" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page8')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page10')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 10: Simple Blending (ma / am) -->
+            <div id="page10" class="screen">
+                <div class="simple-blend-slide">
+                    <div class="simple-blend-row">
+                        <span id="text10_ma" class="simple-blend-text">ma</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio10_m', 'audio10_a'], 'text10_ma')" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+
+                    <div class="simple-blend-row">
+                        <span id="text10_am" class="simple-blend-text">am</span>
+                        <svg class="speaker-icon" onclick="playAudioSequence(['audio10_a', 'audio10_m'], 'text10_am')" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <audio id="audio10_m" src="../audio/letter_m.m4a" preload="auto"></audio>
+                <audio id="audio10_a" src="../audio/letter_a.m4a" preload="auto"></audio>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page9')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page1')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+
+</html>
