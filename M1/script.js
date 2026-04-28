@@ -54,12 +54,75 @@ function initializeApp() {
     
     // Set up audio
     setupAudio();
+
+    // Fit the board to the viewport
+    setupBoardScale();
     
     // Show initial screen
     showScreen(currentScreen);
     
     // Set up keyboard navigation
     setupKeyboardNavigation();
+}
+
+function setupBoardScale() {
+    const frame = document.querySelector('.frame');
+    if (!frame) return;
+
+    const setScaleMode = (enabled) => {
+        if (enabled) {
+            document.body.classList.add('board-scale-enabled');
+        } else {
+            document.body.classList.remove('board-scale-enabled');
+            frame.style.setProperty('--board-scale', '1');
+        }
+    };
+
+    const cacheBaseSize = () => {
+        frame.style.setProperty('--board-scale', '1');
+        const baseWidth = frame.offsetWidth || frame.getBoundingClientRect().width;
+        const baseHeight = frame.offsetHeight || frame.getBoundingClientRect().height;
+        if (baseWidth && baseHeight) {
+            frame.dataset.baseWidth = String(baseWidth);
+            frame.dataset.baseHeight = String(baseHeight);
+        }
+    };
+
+    const updateScale = () => {
+        const viewportWidth = document.documentElement.clientWidth;
+        const viewportHeight = document.documentElement.clientHeight;
+        const shouldScale = viewportWidth >= 900 && viewportHeight >= 520;
+
+        setScaleMode(shouldScale);
+        if (!shouldScale) {
+            return;
+        }
+
+        const baseWidth = parseFloat(frame.dataset.baseWidth || '') || frame.offsetWidth;
+        const baseHeight = parseFloat(frame.dataset.baseHeight || '') || frame.offsetHeight;
+        if (!baseWidth || !baseHeight) return;
+
+        const margin = 16;
+        const scale = Math.min(
+            1,
+            (viewportWidth - margin * 2) / baseWidth,
+            (viewportHeight - margin * 2) / baseHeight
+        );
+
+        frame.style.setProperty('--board-scale', scale.toFixed(3));
+    };
+
+    let resizeRaf = null;
+    const onResize = () => {
+        if (resizeRaf) cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(updateScale);
+    };
+
+    cacheBaseSize();
+    updateScale();
+
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
 }
 
 function setupNavigation() {
