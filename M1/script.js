@@ -352,7 +352,7 @@ function selectPantig(starEl, syllableType) {
     const page = starEl ? starEl.closest('.screen') : null;
     if (!page) return;
 
-    const audioPrefix = page.id === 'page13' ? 'audio13' : 'audio11';
+    const audioPrefix = page.id === 'page13' ? 'audio13' : page.id === 'page20' ? 'audio20' : 'audio11';
 
     page.querySelectorAll('.star-syllable-star').forEach(star => {
         star.classList.remove('active');
@@ -377,6 +377,42 @@ function selectPantig(starEl, syllableType) {
         const secondLetter = syllableType.charAt(1).toLowerCase();
         playAudioSequence([`${audioPrefix}_${firstLetter}`, `${audioPrefix}_${secondLetter}`], textId);
     }
+}
+
+function speakSyllable(text, targetEl = null) {
+    stopAudio();
+
+    if (!window.speechSynthesis) {
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const activeItems = document.querySelectorAll('.star-syllable-star.active, .star-syllable-text.active');
+    activeItems.forEach(item => item.classList.remove('active'));
+
+    const itemEl = targetEl && targetEl.classList ? targetEl : null;
+    const starEl = itemEl ? itemEl.querySelector('.star-syllable-star') : null;
+    const textEl = itemEl ? itemEl.querySelector('.star-syllable-text') : null;
+
+    if (starEl) starEl.classList.add('active');
+    if (textEl) textEl.classList.add('active');
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'tl-PH';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    const clearActiveState = () => {
+        if (starEl) starEl.classList.remove('active');
+        if (textEl) textEl.classList.remove('active');
+    };
+
+    utterance.onend = clearActiveState;
+    utterance.onerror = clearActiveState;
+
+    window.speechSynthesis.speak(utterance);
 }
 
 function stopAudio() {

@@ -3288,7 +3288,7 @@ p {
 
 #page19 .ama-blend-bottom-row {
   justify-content: center;
-  gap: clamp(28px, 4.4vw, 64px);
+  gap: clamp(48px, 7vw, 120px);
 }
 
 #page19 .ama-chain-group,
@@ -3315,6 +3315,38 @@ p {
 #page19 .ama-word-unit .speaker-icon {
   width: clamp(24px, 4.4vw, 60px);
   height: clamp(24px, 4.4vw, 60px);
+}
+
+#page20 .star-syllable-slide {
+  padding: 0 40px;
+}
+
+#page20 .star-syllable-grid {
+  grid-template-columns: repeat(2, auto);
+  row-gap: clamp(28px, 4.2vw, 70px);
+  column-gap: clamp(70px, 8.5vw, 130px);
+  justify-items: start;
+  align-items: center;
+}
+
+#page20 .star-syllable-item {
+  font-size: clamp(72px, 8.5vw, 118px);
+  display: grid;
+  grid-template-columns: 1.2em auto;
+  column-gap: clamp(10px, 1.6vw, 18px);
+  align-items: center;
+  justify-items: start;
+  justify-self: start;
+}
+
+#page20 .star-syllable-star {
+  font-size: 0.8em;
+  width: 1.2em;
+  text-align: center;
+}
+
+#page20 .star-syllable-text {
+  letter-spacing: 0.01em;
 }
 
 @media (max-width: 1024px) {
