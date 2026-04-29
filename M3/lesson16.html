@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 16 - Marungko</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* Layout for Lesson 16 */
+        .lesson16-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 60px;
+            box-sizing: border-box;
+        }
+
+        /* Text content */
+        .text-content {
+            text-align: center;
+            max-width: 90%;
+            margin-top: 120px;
+        }
+
+        .text-content p {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 75px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            line-height: 1.4;
+            text-align: center;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .pagsasanay-title {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 75px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Back button (Bottom Left) */
+        .back-btn-custom {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .back-btn-custom:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .back-btn-custom::before {
+            content: '';
+            display: inline-block;
+            border: solid white;
+            border-width: 0 5px 5px 0;
+            padding: 6px;
+            transform: rotate(135deg);
+            margin-left: 6px;
+        }
+
+        /* Next button (Bottom Right) */
+        .next-btn-custom {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .next-btn-custom:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .next-btn-custom::before {
+            content: '';
+            display: inline-block;
+            border: solid white;
+            border-width: 0 5px 5px 0;
+            padding: 6px;
+            transform: rotate(-45deg);
+            margin-left: -6px;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .lesson16-container { padding: 20px; }
+            .pagsasanay-title {
+                top: 20px;
+                left: 30px;
+                font-size: 48px;
+            }
+            .text-content { margin-top: 80px; max-width: 95%; }
+            .text-content p { font-size: 40px; }
+        }
+
+        @media (orientation: portrait) {
+            .lesson16-container {
+                align-items: center;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 10px;
+            }
+            .pagsasanay-title {
+                position: static;
+                text-align: center;
+                font-size: 32px;
+                margin-top: 80px;
+                margin-bottom: 20px;
+            }
+            .text-content { margin-top: 0; max-width: 100%; padding: 0 10px; }
+            .text-content p { font-size: 26px; line-height: 1.5; }
+            
+            .back-btn-custom, .next-btn-custom {
+                width: 44px;
+                height: 44px;
+                bottom: 10px;
+            }
+            .back-btn-custom { left: 10px; }
+            .next-btn-custom { right: 10px; }
+            .back-btn-custom::before { padding: 4px; margin-left: 2px; border-width: 0 3px 3px 0; }
+            .next-btn-custom::before { padding: 4px; margin-left: -2px; border-width: 0 3px 3px 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="index-return-btn" href="../index.html" data-transition-direction="back" aria-label="Return to index" title="Return">Return</a>
+    <div class="frame">
+        <div class="chalkboard">
+
+            <!-- DECODE Logo top right -->
+            <div class="logo-placeholder">
+                <img src="../images/decode.png" alt="Logo">
+            </div>
+
+            <div class="doodle-layer" aria-hidden="true">
+                <span class="doodle cloud" style="--x: 12%; --y: 18%; --w: 180px; --h: 80px; --t: 28s;"></span>
+                <span class="doodle cloud" style="--x: 70%; --y: 12%; --w: 160px; --h: 70px; --t: 26s;"></span>
+                <span class="doodle cloud" style="--x: 86%; --y: 62%; --w: 200px; --h: 90px; --t: 30s;"></span>
+                <span class="doodle blob" style="--x: 20%; --y: 70%; --w: 140px; --h: 100px; --t: 24s;"></span>
+                <span class="doodle blob" style="--x: 56%; --y: 36%; --w: 120px; --h: 90px; --t: 22s;"></span>
+                <span class="doodle sparkle" style="--x: 32%; --y: 22%; --size: 16px; --t: 5.5s;"></span>
+                <span class="doodle sparkle" style="--x: 62%; --y: 18%; --size: 12px; --t: 6.5s;"></span>
+                <span class="doodle sparkle" style="--x: 78%; --y: 40%; --size: 14px; --t: 7s;"></span>
+                <span class="doodle sparkle" style="--x: 42%; --y: 80%; --size: 10px; --t: 6s;"></span>
+            </div>
+
+            <!-- Main screen -->
+            <div id="lesson16" class="screen active">
+
+            <div class="lesson16-container">
+
+                <!-- Text content -->
+                <p class="pagsasanay-title">Pagsasanay 4:</p>
+                <div class="text-content">
+                    <p>Gumuhit ng hayop nagusto mong alagaan. Sabihin kung ano ito at kung bakit ito ang iyong gustong alagaan.</p>
+                </div>
+
+            </div>
+
+                <!-- Custom back button (bottom left) -->
+                <div class="back-btn-custom" onclick="navigateWithSlide('lesson10.html', 'back')"></div>
+
+                <!-- Next button (bottom right) -->
+                <div class="next-btn-custom" onclick="navigateWithSlide('drawboard.html')"
+                    title="Next"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
