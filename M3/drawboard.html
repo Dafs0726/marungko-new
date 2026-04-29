@@ -340,6 +340,25 @@
             transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
         }
 
+        .btn-download {
+            appearance: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(52, 152, 219, 0.22);
+            color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: clamp(10px, 2vw, 12px) clamp(8px, 1.8vw, 10px);
+            cursor: pointer;
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(13px, 1.8vw, 16px);
+            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.02);
+            background: rgba(52, 152, 219, 0.34);
+            border-color: rgba(255, 255, 255, 0.26);
+        }
+
         .btn-clear:hover {
             transform: scale(1.02);
             background: rgba(231, 76, 60, 0.28);
@@ -547,6 +566,10 @@
                         </div>
 
                         <div class="toolbar-section">
+                            <button type="button" class="btn-download" id="downloadBtn">Download</button>
+                        </div>
+
+                        <div class="toolbar-section">
                             <button type="button" class="btn-clear" id="clearBtn">Clear</button>
                         </div>
                     </div>
@@ -575,6 +598,7 @@
             const toolEraseBtn = document.getElementById('toolErase');
             const undoBtn = document.getElementById('undoBtn');
             const redoBtn = document.getElementById('redoBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
             const clearBtn = document.getElementById('clearBtn');
             const toolbarToggle = document.getElementById('toolbarToggle');
             const drawboardScreen = document.querySelector('.drawboard-screen');
@@ -809,6 +833,67 @@
                 ctx.stroke();
             }
 
+            function paintChalkboardBackground(targetCtx, width, height) {
+                targetCtx.clearRect(0, 0, width, height);
+                targetCtx.fillStyle = '#0a6f53';
+                targetCtx.fillRect(0, 0, width, height);
+
+                const glowA = targetCtx.createRadialGradient(width * 0.2, height * 0.18, 0, width * 0.2, height * 0.18, width * 0.28);
+                glowA.addColorStop(0, 'rgba(255,255,255,0.09)');
+                glowA.addColorStop(1, 'rgba(255,255,255,0)');
+                targetCtx.fillStyle = glowA;
+                targetCtx.fillRect(0, 0, width, height);
+
+                const glowB = targetCtx.createRadialGradient(width * 0.78, height * 0.22, 0, width * 0.78, height * 0.22, width * 0.24);
+                glowB.addColorStop(0, 'rgba(255,255,255,0.05)');
+                glowB.addColorStop(1, 'rgba(255,255,255,0)');
+                targetCtx.fillStyle = glowB;
+                targetCtx.fillRect(0, 0, width, height);
+
+                const glowC = targetCtx.createRadialGradient(width * 0.5, height * 0.72, 0, width * 0.5, height * 0.72, width * 0.3);
+                glowC.addColorStop(0, 'rgba(255,255,255,0.04)');
+                glowC.addColorStop(1, 'rgba(255,255,255,0)');
+                targetCtx.fillStyle = glowC;
+                targetCtx.fillRect(0, 0, width, height);
+
+                const shade = targetCtx.createLinearGradient(0, 0, 0, height);
+                shade.addColorStop(0, 'rgba(255,255,255,0.06)');
+                shade.addColorStop(1, 'rgba(0,0,0,0.16)');
+                targetCtx.fillStyle = shade;
+                targetCtx.fillRect(0, 0, width, height);
+            }
+
+            function downloadDrawing() {
+                resizeCanvasIfNeeded();
+
+                const exportCanvas = document.createElement('canvas');
+                exportCanvas.width = canvas.width;
+                exportCanvas.height = canvas.height;
+                const exportCtx = exportCanvas.getContext('2d', { alpha: false });
+
+                if (!exportCtx) return;
+
+                exportCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                paintChalkboardBackground(exportCtx, cssSize.w, cssSize.h);
+                exportCtx.setTransform(1, 0, 0, 1, 0, 0);
+                exportCtx.drawImage(canvas, 0, 0, exportCanvas.width, exportCanvas.height);
+
+                exportCanvas.toBlob(blob => {
+                    if (!blob) return;
+
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const filename = `drawboard-${timestamp}.png`;
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    URL.revokeObjectURL(url);
+                }, 'image/png');
+            }
+
             function onPointerDown(ev) {
                 if (ev.button !== undefined && ev.button !== 0) return;
                 resizeCanvasIfNeeded();
@@ -841,6 +926,7 @@
             toolEraseBtn.addEventListener('click', () => setTool('erase'));
             undoBtn.addEventListener('click', () => queueRestore(historyIndex - 1));
             redoBtn.addEventListener('click', () => queueRestore(historyIndex + 1));
+            downloadBtn.addEventListener('click', downloadDrawing);
 
             swatches.forEach(btn => {
                 btn.addEventListener('click', () => setColor(btn.dataset.color));

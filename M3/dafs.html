@@ -1445,7 +1445,7 @@
                 <div style="
                     width: min(86%, 980px);
                     font-family: 'Fredoka', sans-serif;
-                    font-size: clamp(32px, 3.6vw, 62px);
+                    font-size: clamp(40px, 4.4vw, 74px);
                     font-weight: 600;
                     line-height: 1.45;
                     color: #ffffff;
@@ -1590,6 +1590,8 @@ Gusto ko ito.</div>
                     <div class="ako-quiz-options">
                         <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">A. ako</button>
                         <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. ate</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">C. kuya</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">D. tatay</button>
                     </div>
                 </div>
 
@@ -1600,6 +1602,142 @@ Gusto ko ito.</div>
                 </div>
 
                 <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_4')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_yema_story')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.6: Ang Yema Story -->
+            <div id="page16_yema_story" class="screen">
+                <div style="
+                    width: min(86%, 980px);
+                    font-family: 'Fredoka', sans-serif;
+                    font-size: clamp(40px, 4.4vw, 74px);
+                    font-weight: 600;
+                    line-height: 1.45;
+                    color: #ffffff;
+                    text-align: center;
+                    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+                    white-space: pre-line;
+                    padding: 20px 24px;
+                    box-sizing: border-box;
+                ">Ang yema
+Sa mesa ay may yema.
+Pasalubong ito ni yaya.
+Kinain ko ang yema.
+Nagpasalamat ako kay Yaya.</div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_5')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_yema_q1')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.7: Yema Quiz 1 -->
+            <div id="page16_yema_q1" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="B. nasa mesa">
+                    <p class="ako-quiz-question">1. Nasaan ang yema?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">A. nasa bulsa</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">B. nasa mesa</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">C. nasa kusina</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">D. nasa tindahan</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_story')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_yema_q2')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.8: Yema Quiz 2 -->
+            <div id="page16_yema_q2" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="D. kay yaya">
+                    <p class="ako-quiz-question">2. Kanino galing ang yema?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">A. kay ate</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. kay nanay</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">C. kay tatay</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">D. kay yaya</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_q1')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_yema_q3')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.9: Yema Quiz 3 -->
+            <div id="page16_yema_q3" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="B. kinain">
+                    <p class="ako-quiz-question">3. Ano ang ginawa niya sa yema?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">A. binili</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">B. kinain</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">C. kinuha</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">D. binigay</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_q2')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page16_yema_q4')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 16.10: Yema Quiz 4 -->
+            <div id="page16_yema_q4" class="screen">
+                <div class="ako-quiz-container" data-correct-answer="D. nagpasalamat">
+                    <p class="ako-quiz-question">4. Ano ang ginawa ng bata pagkatapos kainin ang yema?</p>
+
+                    <div class="ako-quiz-options">
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">A. umalis</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">B. kumain</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, false)">C. nagtago</button>
+                        <button class="ako-quiz-option" type="button" onclick="checkAkoKayaChoiceBlank(this, true)">D. nagpasalamat</button>
+                    </div>
+                </div>
+
+                <div class="lesson-feedback-panel">
+                    <div class="icon"></div>
+                    <div class="title"></div>
+                    <div class="sub-text"></div>
+                </div>
+
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_q3')">
                     <div class="arrow"></div>
                 </div>
                 <div class="nav-btn" onclick="showPage('page17_1')">
@@ -1624,7 +1762,7 @@ Gusto ko ito.</div>
                         style="width: 150px; height: 150px; cursor: pointer;">
                     <div class="reveal-answer">"Si tatay ang may hawak na yero."</div>
                 </div>
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_5')">
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_q4')">
                     <div class="arrow"></div>
                 </div>
                 <div class="nav-btn" onclick="showPage('page17_2')">
