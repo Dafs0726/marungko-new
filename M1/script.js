@@ -6,6 +6,9 @@ let isPlaying = false;
 let screens = [];
 let audioFiles = {};
 let localStorageKey = 'marungko_progress';
+let progressFillEl = null;
+let progressPercentEl = null;
+const M1_PROGRESS_OVERRIDE_KEY = 'm1_progress_override';
 const GLOBAL_BGM_ENABLED_KEY = 'marungko_bgm_enabled';
 const GLOBAL_BGM_TIME_KEY = 'marungko_bgm_time';
 const GLOBAL_BGM_AUDIO_ID = 'marungko-global-bgm';
@@ -45,6 +48,10 @@ function initializeApp() {
 
     // Get all screen elements
     screens = document.querySelectorAll('.screen');
+
+    if (document.querySelector('.lesson-btn')) {
+        sessionStorage.removeItem(M1_PROGRESS_OVERRIDE_KEY);
+    }
     
     // Load progress from localStorage
     loadProgress();
@@ -57,12 +64,102 @@ function initializeApp() {
 
     // Fit the board to the viewport
     setupBoardScale();
+
+    // Build progress bar UI
+    setupProgressBar();
+
+    // Track notebook clicks to keep progress aligned with slide
+    setupLessonLinks();
     
     // Show initial screen
     showScreen(currentScreen);
     
     // Set up keyboard navigation
     setupKeyboardNavigation();
+}
+
+function setupLessonLinks() {
+    const lessonLinks = document.querySelectorAll('.lesson-btn[href]');
+    if (!lessonLinks.length) return;
+
+    lessonLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (!screens.length) return;
+            const progress = Math.round(((currentScreen + 1) / screens.length) * 100);
+            sessionStorage.setItem(M1_PROGRESS_OVERRIDE_KEY, String(progress));
+        });
+    });
+}
+
+function setupProgressBar() {
+    const frame = document.querySelector('.frame');
+    const chalkboard = document.querySelector('.chalkboard');
+    if (!frame || !chalkboard) return;
+    if (frame.querySelector('.progress-wrap')) {
+        progressFillEl = frame.querySelector('.progress-fill');
+        updateProgressBar();
+        return;
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'progress-wrap';
+
+    const track = document.createElement('div');
+    track.className = 'progress-track';
+    track.setAttribute('role', 'progressbar');
+    track.setAttribute('aria-label', 'Lesson progress');
+    track.setAttribute('aria-valuemin', '0');
+    track.setAttribute('aria-valuemax', '100');
+
+    const fill = document.createElement('div');
+    fill.className = 'progress-fill';
+
+    const percent = document.createElement('span');
+    percent.className = 'progress-percent';
+    percent.textContent = '0%';
+
+    track.appendChild(fill);
+    wrap.appendChild(track);
+    wrap.appendChild(percent);
+    frame.insertAdjacentElement('afterend', wrap);
+
+    progressFillEl = fill;
+    progressPercentEl = percent;
+    syncProgressBarWidth();
+    updateProgressBar();
+
+    window.addEventListener('resize', syncProgressBarWidth);
+    window.addEventListener('orientationchange', syncProgressBarWidth);
+}
+
+function syncProgressBarWidth() {
+    const frame = document.querySelector('.frame');
+    const wrap = document.querySelector('.progress-wrap');
+    if (!frame || !wrap) return;
+    const rect = frame.getBoundingClientRect();
+    wrap.style.width = `${rect.width}px`;
+}
+
+function updateProgressBar() {
+    if (!progressFillEl || !screens.length) return;
+    let progress = ((currentScreen + 1) / screens.length) * 100;
+    const overrideValue = sessionStorage.getItem(M1_PROGRESS_OVERRIDE_KEY);
+    const isSingleScreen = screens.length <= 1;
+    if (overrideValue && isSingleScreen) {
+        const parsed = parseInt(overrideValue, 10);
+        if (Number.isFinite(parsed)) {
+            progress = parsed;
+        }
+    }
+
+    progressFillEl.style.width = `${progress}%`;
+    if (progressPercentEl) {
+        progressPercentEl.textContent = `${Math.round(progress)}%`;
+    }
+    const track = progressFillEl.parentElement;
+    if (track) {
+        track.setAttribute('aria-valuenow', String(Math.round(progress)));
+    }
 }
 
 function setupBoardScale() {
@@ -179,6 +276,8 @@ function showScreen(index) {
     
     // Update current screen
     currentScreen = index;
+
+    updateProgressBar();
     
     // Save progress
     saveProgress();
@@ -692,6 +791,7 @@ function playWithDelay(audioId, targetPageId, delayMs) {
 
 // Navigate to main.html with target page
 function navigateToMainPage(pageId) {
+    sessionStorage.removeItem(M1_PROGRESS_OVERRIDE_KEY);
     sessionStorage.setItem('targetPage', pageId);
     window.location.href = 'main.html';
 }

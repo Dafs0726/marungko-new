@@ -43,6 +43,7 @@
                     <div class="lesson-choices-row" id="choicesContainer"></div>
                 </div>
                 <div class="lesson-feedback-panel" id="feedbackPanel">
+                    <button class="feedback-close-btn" id="feedbackCloseBtn" aria-label="Close feedback">&times;</button>
                     <div class="icon" id="feedbackIcon"></div>
                     <div class="title" id="feedbackTitle"></div>
                     <div class="sub-text" id="feedbackSub"></div>
@@ -50,20 +51,7 @@
                 <div class="home-btn" role="button" tabindex="0" onclick="navigateToMainPage('page6')"
                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();navigateToMainPage('page6');}"
                     title="Back to Main">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10,18 Q10,14 14,13 Q30,10 48,15 L48,85 Q30,80 14,83 Q10,84 10,80 Z" fill="#f5e6c8" stroke="#c8a96e" stroke-width="2.5" stroke-linejoin="round" />
-                        <path d="M90,18 Q90,14 86,13 Q70,10 52,15 L52,85 Q70,80 86,83 Q90,84 90,80 Z" fill="#fdf3de" stroke="#c8a96e" stroke-width="2.5" stroke-linejoin="round" />
-                        <rect x="46" y="12" width="8" height="74" rx="2" fill="#b08030" />
-                        <line x1="18" y1="30" x2="44" y2="28" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="18" y1="40" x2="44" y2="38" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="18" y1="50" x2="44" y2="48" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="18" y1="60" x2="44" y2="58" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="56" y1="28" x2="82" y2="30" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="56" y1="38" x2="82" y2="40" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="56" y1="48" x2="82" y2="50" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <line x1="56" y1="58" x2="82" y2="60" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
-                        <text x="65" y="78" font-size="16" text-anchor="middle" fill="#e07830" font-family="sans-serif">&#9733;</text>
-                    </svg>
+                    <img src="../images/arrow-backward.png" alt="Back">
                 </div>
             </div>
             <audio id="sfx-correct" src="../audio/correct.mp3" preload="auto"></audio>
@@ -74,6 +62,7 @@
         const correctAnswer = 'a';
         const allLetters = ['a', 's', 'm'];
         let currentChoices = [];
+        let answerLocked = false;
         function initializeChoices() {
             let choices = [correctAnswer];
             let otherLetters = allLetters.filter(l => l !== correctAnswer);
@@ -95,6 +84,9 @@
             });
         }
         function checkAnswer(el, isCorrect) {
+            if (answerLocked || !el) return;
+            answerLocked = true;
+
             const panel = document.getElementById('feedbackPanel');
             const icon = document.getElementById('feedbackIcon');
             const title = document.getElementById('feedbackTitle');
@@ -124,12 +116,22 @@
                 el.style.filter = 'brightness(0.85)';
             }
 
-            setTimeout(() => {
+            const closeBtn = document.getElementById('feedbackCloseBtn');
+            if (closeBtn) {
+                closeBtn.onclick = () => closeFeedback(el);
+            }
+        }
+
+        function closeFeedback(el) {
+            const panel = document.getElementById('feedbackPanel');
+            if (panel) {
                 panel.className = 'lesson-feedback-panel';
+            }
+            if (el) {
                 el.style.outline = 'none';
                 el.style.filter = 'none';
-                navigateToMainPage('page6');
-            }, 1800);
+            }
+            navigateToMainPage('page6');
         }
         document.addEventListener('DOMContentLoaded', initializeChoices);
     </script>

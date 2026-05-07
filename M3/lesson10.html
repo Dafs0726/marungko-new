@@ -313,7 +313,7 @@
                         <div class="char-img-wrap">
                             <img src="../images/kuya.png" alt="Kuya">
                         </div>
-                        <div class="num-circle" id="btn1" onclick="selectChar(1)">1</div>
+                        <div class="num-circle" id="btn1" data-char="1" role="button" tabindex="0">1</div>
                     </div>
 
                     <!-- Character 2: Tatay (Father) -->
@@ -321,7 +321,7 @@
                         <div class="char-img-wrap">
                             <img src="../images/tatay.png" alt="Tatay">
                         </div>
-                        <div class="num-circle" id="btn2" onclick="selectChar(2)">2</div>
+                        <div class="num-circle" id="btn2" data-char="2" role="button" tabindex="0">2</div>
                     </div>
 
                     <!-- Character 3: Lolo (Grandfather) -->
@@ -329,7 +329,7 @@
                         <div class="char-img-wrap">
                             <img src="../images/lolo.png" alt="Lolo">
                         </div>
-                        <div class="num-circle" id="btn3" onclick="selectChar(3)">3</div>
+                        <div class="num-circle" id="btn3" data-char="3" role="button" tabindex="0">3</div>
                     </div>
 
                     <!-- Character 4: Lola (Grandmother) -->
@@ -337,7 +337,7 @@
                         <div class="char-img-wrap">
                             <img src="../images/lola.png" alt="Lola">
                         </div>
-                        <div class="num-circle" id="btn4" onclick="selectChar(4)">4</div>
+                        <div class="num-circle" id="btn4" data-char="4" role="button" tabindex="0">4</div>
                     </div>
 
                     <!-- Character 5: Batang Babae (Girl) -->
@@ -345,7 +345,7 @@
                         <div class="char-img-wrap">
                             <img src="../images/ate.png" alt="Batang Babae">
                         </div>
-                        <div class="num-circle" id="btn5" onclick="selectChar(5)">5</div>
+                        <div class="num-circle" id="btn5" data-char="5" role="button" tabindex="0">5</div>
                     </div>
 
                 </div>
@@ -361,75 +361,122 @@
 
                 <!-- Back button -->
                 <div class="nav-btn back-btn" style="right: auto; left: 25px;"
-                    onclick="navigateWithSlide('dafs.html#page19', 'back')">
+                    data-target="dafs.html#page19" data-direction="back" role="button" tabindex="0" aria-label="Go back">
                     <div class="arrow"></div>
                 </div>
 
                 <!-- Next button -->
-                <div class="next-btn" onclick="navigateWithSlide('lesson16.html')"></div>
+                <div class="next-btn" data-target="lesson16.html" data-direction="next" role="button" tabindex="0" aria-label="Go to next lesson"></div>
 
             </div>
 
         </div>
     </div>
-
     <script>
-        let selected = null;
+        (() => {
+            const LESSON_LINKS = {
+                1: 'lesson11.html',
+                2: 'lesson12.html',
+                3: 'lesson13.html',
+                4: 'lesson14.html',
+                5: 'lesson15.html'
+            };
 
-        // Check completion on load
-        window.addEventListener('DOMContentLoaded', () => {
-            // Circle 1 -> Lesson 11
-            // We can extend this for circles 2-5 as more lessons are added
-            loadBadge(1, '11');
-            loadBadge(2, '12'); // Future proofing
-            loadBadge(3, '13');
-            loadBadge(4, '14');
-            loadBadge(5, '15');
-        });
+            const circles = Array.from(document.querySelectorAll('.num-circle'));
+            const backBtn = document.querySelector('.nav-btn.back-btn');
+            const nextBtn = document.querySelector('.next-btn');
 
-        function loadBadge(btnNum, lessonId) {
-            const isDone = localStorage.getItem(`lesson${lessonId}_done`) === '1';
-            const isWrong = localStorage.getItem(`lesson${lessonId}_wrong`) === '1';
-            
-            if (isDone || isWrong) {
-                const btn = document.getElementById(`btn${btnNum}`);
-                if (btn) {
-                    const badge = document.createElement('div');
-                    badge.className = `num-badge ${isDone ? 'check' : 'x'}`;
-                    badge.textContent = isDone ? '\u2713' : '\u2715';
-                    btn.appendChild(badge);
+            function safeNavigate(url, direction = "next") {
+                if (!url) return;
+                if (typeof window.navigateWithSlide === 'function') {
+                    window.navigateWithSlide(url, direction);
+                    return;
                 }
-            }
-        }
-
-        function selectChar(num) {
-            // Clear all previous states
-            for (let i = 1; i <= 5; i++) {
-                const btn = document.getElementById('btn' + i);
-                btn.classList.remove('selected', 'wrong');
+                window.location.href = url;
             }
 
-            selected = num;
-            const btn = document.getElementById('btn' + num);
-            btn.classList.add('selected');
-
-            if (num === 1) {
-                // Navigate to lesson11.html immediately
-                navigateWithSlide('lesson11.html');
-            } else if (num === 2) {
-                // Navigate to lesson12.html immediately
-                navigateWithSlide('lesson12.html');
-            } else if (num === 3) {
-                // Navigate to lesson13.html immediately
-                navigateWithSlide('lesson13.html');
-            } else if (num === 4) {
-                // Navigate to lesson14.html immediately
-                navigateWithSlide('lesson14.html');
-            } else if (num === 5) {
-                // Navigate to lesson15.html immediately
-                navigateWithSlide('lesson15.html');
+            function bindActivate(target, callback) {
+                if (!target || typeof callback !== 'function') return;
+                target.addEventListener('click', callback);
+                target.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        callback();
+                    }
+                });
             }
-        }
+
+            function loadBadge(btnNum, lessonId) {
+                let isDone = false;
+                let isWrong = false;
+
+                try {
+                    isDone = localStorage.getItem(`lesson${lessonId}_done`) === '1';
+                    isWrong = localStorage.getItem(`lesson${lessonId}_wrong`) === '1';
+                } catch (error) {
+                    console.warn('Could not read lesson badge state:', error);
+                    return;
+                }
+
+                const btn = document.getElementById(`btn${btnNum}`);
+                if (!btn) return;
+
+                btn.querySelectorAll('.num-badge').forEach(badge => badge.remove());
+
+                if (!isDone && !isWrong) return;
+
+                const badge = document.createElement('div');
+                badge.className = `num-badge ${isDone ? 'check' : 'x'}`;
+                badge.textContent = isDone ? '\u2713' : '\u2715';
+                btn.appendChild(badge);
+            }
+
+            function selectChar(num) {
+                circles.forEach(circle => circle.classList.remove('selected', 'wrong'));
+
+                const btn = document.getElementById(`btn${num}`);
+                if (!btn) return;
+
+                btn.classList.add('selected');
+                safeNavigate(LESSON_LINKS[num], "next");
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                loadBadge(1, '11');
+                loadBadge(2, '12');
+                loadBadge(3, '13');
+                loadBadge(4, '14');
+                loadBadge(5, '15');
+            });
+
+            circles.forEach(circle => {
+                bindActivate(circle, () => {
+                    const parsed = Number(circle.dataset.char || circle.textContent.trim());
+                    if (Number.isFinite(parsed)) {
+                        selectChar(parsed);
+                    }
+                });
+            });
+
+            bindActivate(backBtn, () => {
+                const target = backBtn && backBtn.dataset ? backBtn.dataset.target : 'dafs.html#page19';
+                const direction = backBtn && backBtn.dataset ? backBtn.dataset.direction : 'back';
+                safeNavigate(target, direction);
+            });
+
+            bindActivate(nextBtn, () => {
+                const target = nextBtn && nextBtn.dataset ? nextBtn.dataset.target : 'lesson16.html';
+                const direction = nextBtn && nextBtn.dataset ? nextBtn.dataset.direction : 'next';
+                safeNavigate(target, direction);
+            });
+
+            window.selectChar = (num) => {
+                const parsed = Number(num);
+                if (Number.isFinite(parsed)) {
+                    selectChar(parsed);
+                }
+            };
+        })();
     </script>
 </body>
 

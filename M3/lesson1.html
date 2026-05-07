@@ -8,9 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
-    <style>
-        /* Internal styles removed - now using unified framework in style.css */
-    </style>
 </head>
 
 <body class="m3-three-choice">
@@ -59,17 +56,17 @@
                     <div class="lesson-choices-row">
 
                         <!-- Circle A (correct) -->
-                        <div class="lesson-choice-circle orange" onclick="checkAnswer(this, false)" title="a">
+                        <div class="lesson-choice-circle orange" data-correct="false" role="button" tabindex="0" title="a">
                             <div class="letter"><span>a</span></div>
                         </div>
 
                         <!-- Circle M (wrong) -->
-                        <div class="lesson-choice-circle green" onclick="checkAnswer(this, false)" title="m">
+                        <div class="lesson-choice-circle green" data-correct="false" role="button" tabindex="0" title="m">
                             <div class="letter"><span>m</span></div>
                         </div>
 
                         <!-- Circle S (wrong) -->
-                        <div class="lesson-choice-circle yellow" onclick="checkAnswer(this, true)" title="s">
+                        <div class="lesson-choice-circle yellow" data-correct="true" role="button" tabindex="0" title="s">
                             <div class="letter"><span>s</span></div>
                         </div>
 
@@ -77,47 +74,17 @@
                 </div>
 
                 <!-- Feedback panel -->
-                <div class="lesson-feedback-panel" id="l1-feedback-panel">
+                <div class="lesson-feedback-panel" id="l1-feedback-panel" role="status" aria-live="polite">
+                    <button class="feedback-close-btn" id="l1-feedback-close" aria-label="Close feedback">&times;</button>
                     <div class="icon" id="l1-feedback-icon"></div>
                     <div class="title" id="l1-feedback-title"></div>
                     <div class="sub-text" id="l1-feedback-sub"></div>
                 </div>
 
                 <!-- Back button (book) (bottom right) -->
-                <div class="home-btn" role="button" tabindex="0" onclick="goBack()"
-                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goBack();}"
-                    title="Back to Notebook Menu">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Left page -->
-                        <path d="M10,18 Q10,14 14,13 Q30,10 48,15 L48,85 Q30,80 14,83 Q10,84 10,80 Z" fill="#f5e6c8"
-                            stroke="#c8a96e" stroke-width="2.5" stroke-linejoin="round" />
-                        <!-- Right page -->
-                        <path d="M90,18 Q90,14 86,13 Q70,10 52,15 L52,85 Q70,80 86,83 Q90,84 90,80 Z" fill="#fdf3de"
-                            stroke="#c8a96e" stroke-width="2.5" stroke-linejoin="round" />
-                        <!-- Spine -->
-                        <rect x="46" y="12" width="8" height="74" rx="2" fill="#b08030" />
-                        <!-- Left page lines (chalk marks) -->
-                        <line x1="18" y1="30" x2="44" y2="28" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <line x1="18" y1="40" x2="44" y2="38" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <line x1="18" y1="50" x2="44" y2="48" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <line x1="18" y1="60" x2="44" y2="58" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <!-- Right page lines (chalk marks) -->
-                        <line x1="56" y1="28" x2="82" y2="30" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <line x1="56" y1="38" x2="82" y2="40" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <line x1="56" y1="48" x2="82" y2="50" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <line x1="56" y1="58" x2="82" y2="60" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round"
-                            opacity="0.7" />
-                        <!-- Chalk star accent on right page -->
-                        <text x="65" y="78" font-size="16" text-anchor="middle" fill="#e07830"
-                            font-family="sans-serif">&#9733;</text>
-                    </svg>
+                <div class="home-btn" role="button" tabindex="0" data-target="dafs.html#page11" data-direction="back"
+                    title="Back to Notebook Menu" aria-label="Go back to lesson menu">
+                    <img src="../images/arrow-backward.png" alt="Back">
                 </div>
 
             </div>
@@ -128,62 +95,129 @@
 
         </div>
     </div>
-
     <script>
-        function goBack() {
-            // Always return to Page 11 so the user can choose another notebook.
-            navigateWithSlide('dafs.html#page11', 'back');
-        }
+        (() => {
+            const LESSON_KEY = 'lesson1';
+            const RETURN_URL = 'dafs.html#page11';
+            const RETURN_DIRECTION = 'back';
+            const FEEDBACK_DURATION_MS = 1800;
+            let answerLocked = false;
 
-        function checkAnswer(el, isCorrect) {
             const panel = document.getElementById('l1-feedback-panel');
             const icon = document.getElementById('l1-feedback-icon');
             const title = document.getElementById('l1-feedback-title');
             const sub = document.getElementById('l1-feedback-sub');
+            const choices = Array.from(document.querySelectorAll('.lesson-choice-circle'));
+            const navBtn = document.querySelector('.home-btn');
 
-            // Reset all circles
-            document.querySelectorAll('.l1-choice').forEach(c => {
-                c.style.outline = 'none';
-                c.style.filter = '';
-            });
-
-            // Play sound
-            const sfx = document.getElementById(isCorrect ? 'sfx-correct' : 'sfx-wrong');
-            sfx.currentTime = 0;
-            sfx.play();
-
-            if (isCorrect) {
-                panel.className = 'lesson-feedback-panel show correct';
-                icon.textContent = String.fromCodePoint(0x1f31f);
-                title.textContent = 'Tama!';
-                sub.textContent = 'Napakagaling mo!';
-                el.style.outline = '6px solid #2ecc71';
-                el.style.filter = 'brightness(1.15)';
-            } else {
-                panel.className = 'lesson-feedback-panel show wrong';
-                icon.textContent = String.fromCodePoint(0x1f60a);
-                title.textContent = 'Subukan Muli!';
-                sub.textContent = 'Kaya mo yan, try ulit!';
-                el.style.outline = '6px solid #e74c3c';
-                el.style.filter = 'brightness(0.85)';
+            function safeNavigate(url, direction) {
+                if (!url) return;
+                if (typeof window.navigateWithSlide === 'function') {
+                    window.navigateWithSlide(url, direction);
+                    return;
+                }
+                window.location.href = url;
             }
 
-            panel.classList.add('show');
-            setTimeout(() => {
-                panel.className = 'lesson-feedback-panel';
+            function persistLessonState(isCorrect) {
+                try {
+                    if (isCorrect) {
+                        localStorage.setItem(`${LESSON_KEY}_done`, '1');
+                        localStorage.removeItem(`${LESSON_KEY}_wrong`);
+                    } else {
+                        localStorage.setItem(`${LESSON_KEY}_wrong`, '1');
+                        localStorage.removeItem(`${LESSON_KEY}_done`);
+                    }
+                } catch (error) {
+                    console.warn('Could not save lesson progress:', error);
+                }
+            }
+
+            function playFeedbackSfx(isCorrect) {
+                const sfx = document.getElementById(isCorrect ? 'sfx-correct' : 'sfx-wrong');
+                if (!sfx) return;
+
+                sfx.currentTime = 0;
+                const playPromise = sfx.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(() => { });
+                }
+            }
+
+            function clearChoiceStyles() {
+                choices.forEach(choice => {
+                    choice.style.outline = 'none';
+                    choice.style.filter = 'none';
+                });
+            }
+
+            function showFeedback(el, isCorrect) {
+                if (!el) return;
+
+                if (panel && icon && title && sub) {
+                    panel.className = `lesson-feedback-panel show ${isCorrect ? 'correct' : 'wrong'}`;
+                    icon.textContent = isCorrect ? String.fromCodePoint(0x1f31f) : String.fromCodePoint(0x1f60a);
+                    title.textContent = isCorrect ? 'Tama!' : 'Subukan Muli!';
+                    sub.textContent = isCorrect ? 'Napakagaling mo!' : 'Kaya mo yan, try ulit!';
+                }
+
+                el.style.outline = isCorrect ? '6px solid #2ecc71' : '6px solid #e74c3c';
+                el.style.filter = isCorrect ? 'brightness(1.15)' : 'brightness(0.85)';
+            }
+
+            function closeFeedback(el, isCorrect) {
+                if (panel) {
+                    panel.classList.remove('show');
+                }
                 el.style.outline = 'none';
                 el.style.filter = 'none';
-                if (isCorrect) {
-                    localStorage.setItem('lesson1_done', '1');
-                    localStorage.removeItem('lesson1_wrong');
-                    goBack();
-                } else {
-                    localStorage.setItem('lesson1_wrong', '1');
-                    localStorage.removeItem('lesson1_done');
-                    goBack();
+                persistLessonState(isCorrect);
+                safeNavigate(RETURN_URL, RETURN_DIRECTION);
+            }
+
+            function handleAnswer(el, isCorrect) {
+                if (answerLocked || !el) return;
+                answerLocked = true;
+
+                clearChoiceStyles();
+                playFeedbackSfx(isCorrect);
+                showFeedback(el, isCorrect);
+
+                // Bind close button
+                const closeBtn = document.getElementById('l1-feedback-close');
+                if (closeBtn) {
+                    closeBtn.onclick = () => closeFeedback(el, isCorrect);
                 }
-            }, 1800);
-        }
+            }
+
+            function bindActivate(target, callback) {
+                if (!target || typeof callback !== 'function') return;
+                target.addEventListener('click', callback);
+                target.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        callback();
+                    }
+                });
+            }
+
+            choices.forEach(choice => {
+                bindActivate(choice, () => {
+                    const isCorrect = choice.dataset.correct === 'true';
+                    handleAnswer(choice, isCorrect);
+                });
+            });
+
+            bindActivate(navBtn, () => {
+                const targetUrl = navBtn && navBtn.dataset ? navBtn.dataset.target : '';
+                const direction = navBtn && navBtn.dataset ? navBtn.dataset.direction : RETURN_DIRECTION;
+                safeNavigate(targetUrl || RETURN_URL, direction || RETURN_DIRECTION);
+            });
+
+            window.checkAnswer = (el, isCorrect) => {
+                handleAnswer(el, Boolean(isCorrect));
+            };
+        })();
     </script>
 </body>
 

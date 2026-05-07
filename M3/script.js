@@ -26,6 +26,29 @@ const GLOBAL_BGM_FILES = [
 ];
 
 let isScreenTransitionRunning = false;
+let progressFillEl = null;
+let progressPercentEl = null;
+const M3_DAFS_SCREEN_COUNT_KEY = 'm3_dafs_screen_count';
+const M3_DAFS_PROGRESS_KEY = 'm3_dafs_progress';
+const M3_LESSON_FILES = [
+    'lesson1.html',
+    'lesson2.html',
+    'lesson3.html',
+    'lesson4.html',
+    'lesson5.html',
+    'lesson6.html',
+    'lesson7.html',
+    'lesson8.html',
+    'lesson9.html',
+    'lesson10.html',
+    'lesson11.html',
+    'lesson12.html',
+    'lesson13.html',
+    'lesson14.html',
+    'lesson15.html',
+    'lesson16.html',
+    'drawboard.html'
+];
 
 function animateElement(element, keyframes, options) {
     if (!element || typeof element.animate !== 'function' || prefersReducedMotion) {
@@ -170,6 +193,25 @@ function resetAnimatedTextElements() {
     });
 }
 
+function setPantigLock(pageId, isLocked) {
+    const page = document.getElementById(pageId);
+    if (!page) return;
+
+    page.dataset.pantigLocked = isLocked ? '1' : '0';
+    page.classList.toggle('pantig-locked', isLocked);
+}
+
+function resetPantigSelection(pageId) {
+    const page = document.getElementById(pageId);
+    if (!page) return;
+
+    page.querySelectorAll('.pantig-star').forEach(star => star.classList.remove('active'));
+    page.querySelectorAll('.pantig-text').forEach(text => {
+        text.classList.remove('active');
+        void text.offsetWidth;
+    });
+}
+
 function handlePageArrival(pageId) {
     if (pageId === 'page11') updateNotebookBadges('page11');
     if (pageId === 'page14') updateNotebookBadges('page14');
@@ -191,18 +233,34 @@ function handlePageArrival(pageId) {
     }
 
     if (pageId === 'page7') {
+        resetPantigSelection('page7');
         const page7Audio = document.getElementById('page7_audio');
         if (page7Audio) {
             page7Audio.currentTime = 0;
-            setTimeout(() => page7Audio.play(), 400);
+            setPantigLock('page7', true);
+            page7Audio.onended = () => setPantigLock('page7', false);
+            setTimeout(() => {
+                const playPromise = page7Audio.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(() => setPantigLock('page7', false));
+                }
+            }, 400);
         }
     }
 
     if (pageId === 'page8') {
+        resetPantigSelection('page8');
         const page8Audio = document.getElementById('page8_audio');
         if (page8Audio) {
             page8Audio.currentTime = 0;
-            setTimeout(() => page8Audio.play(), 400);
+            setPantigLock('page8', true);
+            page8Audio.onended = () => setPantigLock('page8', false);
+            setTimeout(() => {
+                const playPromise = page8Audio.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(() => setPantigLock('page8', false));
+                }
+            }, 400);
         }
     }
 
@@ -266,6 +324,7 @@ function showPage(pageId, options = {}) {
     if (!shouldAnimate) {
         if (currentScreen) currentScreen.classList.remove('active');
         targetScreen.classList.add('active');
+        updateProgressBar(pageId);
         handlePageArrival(pageId);
         return;
     }
@@ -309,12 +368,121 @@ function showPage(pageId, options = {}) {
         cleanupScreenTransition(targetScreen);
 
         isScreenTransitionRunning = false;
+        updateProgressBar(pageId);
         handlePageArrival(pageId);
     };
 
     window.setTimeout(finishTransition, SCREEN_SLIDE_DURATION_MS + 80);
 
     Promise.allSettled([enterAnimation.finished, exitAnimation.finished]).then(finishTransition);
+}
+
+function setupProgressBar() {
+    const frame = document.querySelector('.frame');
+    const chalkboard = document.querySelector('.chalkboard');
+    if (!frame || !chalkboard) return;
+    if (frame.querySelector('.progress-wrap')) {
+        progressFillEl = frame.querySelector('.progress-fill');
+        updateProgressBar();
+        return;
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'progress-wrap';
+
+    const track = document.createElement('div');
+    track.className = 'progress-track';
+    track.setAttribute('role', 'progressbar');
+    track.setAttribute('aria-label', 'Lesson progress');
+    track.setAttribute('aria-valuemin', '0');
+    track.setAttribute('aria-valuemax', '100');
+
+    const fill = document.createElement('div');
+    fill.className = 'progress-fill';
+
+    const percent = document.createElement('span');
+    percent.className = 'progress-percent';
+    percent.textContent = '0%';
+
+    track.appendChild(fill);
+    wrap.appendChild(track);
+    wrap.appendChild(percent);
+    frame.insertAdjacentElement('afterend', wrap);
+
+    progressFillEl = fill;
+    progressPercentEl = percent;
+    syncProgressBarWidth();
+    updateProgressBar();
+
+    window.addEventListener('resize', syncProgressBarWidth);
+    window.addEventListener('orientationchange', syncProgressBarWidth);
+}
+
+function syncProgressBarWidth() {
+    const frame = document.querySelector('.frame');
+    const wrap = document.querySelector('.progress-wrap');
+    if (!frame || !wrap) return;
+    const rect = frame.getBoundingClientRect();
+    wrap.style.width = `${rect.width}px`;
+}
+
+function updateProgressBar(targetPageId) {
+    if (!progressFillEl) return;
+    const screens = Array.from(document.querySelectorAll('.screen'));
+    if (!screens.length) return;
+
+    let activeIndex = 0;
+    if (targetPageId) {
+        const targetScreen = document.getElementById(targetPageId);
+        const index = screens.indexOf(targetScreen);
+        if (index >= 0) activeIndex = index;
+    } else {
+        const activeScreen = document.querySelector('.screen.active');
+        const index = screens.indexOf(activeScreen);
+        if (index >= 0) activeIndex = index;
+    }
+
+    const progress = getM3ProgressPercent(activeIndex, screens.length);
+    progressFillEl.style.width = `${progress}%`;
+    if (progressPercentEl) {
+        progressPercentEl.textContent = `${Math.round(progress)}%`;
+    }
+    const track = progressFillEl.parentElement;
+    if (track) {
+        track.setAttribute('aria-valuenow', String(Math.round(progress)));
+    }
+}
+
+function getM3ProgressPercent(activeIndex, screenCount) {
+    const fileName = window.location.pathname.split('/').pop() || '';
+    if (fileName === 'dafs.html') {
+        const totalSteps = screenCount + M3_LESSON_FILES.length;
+        sessionStorage.setItem(M3_DAFS_SCREEN_COUNT_KEY, String(screenCount));
+        const progress = totalSteps ? ((activeIndex + 1) / totalSteps) * 100 : 0;
+        sessionStorage.setItem(M3_DAFS_PROGRESS_KEY, String(progress));
+        return progress;
+    }
+
+    if (M3_LESSON_FILES.includes(fileName)) {
+        const lessonIndex = M3_LESSON_FILES.indexOf(fileName);
+        
+        // For lessons 1-9, use the stored progress from dafs.html
+        if (lessonIndex >= 0 && lessonIndex <= 8) {
+            const storedProgress = parseFloat(sessionStorage.getItem(M3_DAFS_PROGRESS_KEY) || '0');
+            if (storedProgress > 0) {
+                return storedProgress;
+            }
+        }
+        
+        // For lessons 10+, calculate based on lesson index
+        const dafsCount = parseInt(sessionStorage.getItem(M3_DAFS_SCREEN_COUNT_KEY) || '', 10);
+        const safeDafsCount = Number.isFinite(dafsCount) && dafsCount > 0 ? dafsCount : 0;
+        const totalSteps = safeDafsCount + M3_LESSON_FILES.length;
+        const step = safeDafsCount + lessonIndex + 1;
+        return totalSteps ? (step / totalSteps) * 100 : 0;
+    }
+
+    return screenCount ? ((activeIndex + 1) / screenCount) * 100 : 0;
 }
 
 /**
@@ -427,6 +595,7 @@ document.addEventListener('click', event => {
 
 document.addEventListener('DOMContentLoaded', () => {
     setupGlobalBackgroundMusic('../audio/');
+    setupProgressBar();
 
     if (window.location.hash) {
         const pageId = window.location.hash.substring(1);
@@ -435,6 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         history.replaceState(null, '', window.location.pathname);
     }
+
+    updateProgressBar();
 });
 
 /**

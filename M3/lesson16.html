@@ -199,17 +199,55 @@
             </div>
 
                 <!-- Custom back button (bottom left) -->
-                <div class="back-btn-custom" onclick="navigateWithSlide('lesson10.html', 'back')"></div>
+                <div class="back-btn-custom" data-target="lesson10.html" data-direction="back" role="button" tabindex="0" aria-label="Go back"></div>
 
                 <!-- Next button (bottom right) -->
-                <div class="next-btn-custom" onclick="navigateWithSlide('drawboard.html')"
-                    title="Next"></div>
+                <div class="next-btn-custom" data-target="drawboard.html" data-direction="next"
+                    title="Next" role="button" tabindex="0" aria-label="Go next"></div>
 
             </div>
 
         </div>
     </div>
 
+    <script>
+        (() => {
+            const backBtn = document.querySelector('.back-btn-custom');
+            const nextBtn = document.querySelector('.next-btn-custom');
+
+            function safeNavigate(url, direction = "next") {
+                if (!url) return;
+                if (typeof window.navigateWithSlide === 'function') {
+                    window.navigateWithSlide(url, direction);
+                    return;
+                }
+                window.location.href = url;
+            }
+
+            function bindActivate(target, callback) {
+                if (!target || typeof callback !== 'function') return;
+                target.addEventListener('click', callback);
+                target.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        callback();
+                    }
+                });
+            }
+
+            bindActivate(backBtn, () => {
+                const target = backBtn && backBtn.dataset ? backBtn.dataset.target : 'lesson10.html';
+                const direction = backBtn && backBtn.dataset ? backBtn.dataset.direction : 'back';
+                safeNavigate(target, direction);
+            });
+
+            bindActivate(nextBtn, () => {
+                const target = nextBtn && nextBtn.dataset ? nextBtn.dataset.target : 'drawboard.html';
+                const direction = nextBtn && nextBtn.dataset ? nextBtn.dataset.direction : 'next';
+                safeNavigate(target, direction);
+            });
+        })();
+    </script>
 </body>
 
 </html>

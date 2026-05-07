@@ -163,6 +163,13 @@
             animation: starGlow 0.9s ease-in-out infinite;
         }
 
+        .pantig-locked .pantig-star {
+            pointer-events: none;
+            opacity: 0.55;
+            text-shadow: none;
+            animation: none;
+        }
+
         @keyframes starGlow {
 
             0%,
@@ -484,6 +491,10 @@
             text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.6);
             animation: mahusayPop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, mahusayFloat 3s ease-in-out infinite alternate;
             z-index: 10;
+        }
+
+        .tara-body {
+            color: #FFD700;
         }
 
         @keyframes mahusayPop {
@@ -1604,6 +1615,131 @@ Gusto ko ito.</div>
                 <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_4')">
                     <div class="arrow"></div>
                 </div>
+                <div class="nav-btn" onclick="showPage('page17_1')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.1 -->
+            <div id="page17_1" class="screen">
+                <audio id="p17_q1_audio" src="../audio/TANONG 1.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        1. Sino ang may hawak na yero?
+                        <svg class="q-speaker" onclick="playAudio('p17_q1_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si tatay ang may hawak na yero."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_5')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_2')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.2 -->
+            <div id="page17_2" class="screen">
+                <audio id="p17_q2_audio" src="../audio/TANONG 2.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        2. Sino ang may saya?
+                        <svg class="q-speaker" onclick="playAudio('p17_q2_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si nanay ang may saya."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_1')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_3')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.3 -->
+            <div id="page17_3" class="screen">
+                <audio id="p17_q3_audio" src="../audio/TANONG 3.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        3. Sino ang may yelo?
+                        <svg class="q-speaker" onclick="playAudio('p17_q3_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si ate ang may yelo."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_2')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_4')">
+                    <div class="arrow"></div>
+                </div>
+            </div>  
+
+            <!-- Page 17.4 -->
+            <div id="page17_4" class="screen">
+                <audio id="p17_q4_audio" src="../audio/TANONG 4.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        4. Sino ang may yeso?
+                        <svg class="q-speaker" onclick="playAudio('p17_q4_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Si kuya ang may yeso."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_3')">
+                    <div class="arrow"></div>
+                </div>
+                <div class="nav-btn" onclick="showPage('page17_5')">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <!-- Page 17.5 -->
+            <div id="page17_5" class="screen">
+                <audio id="p17_q5_audio" src="../audio/TANONG 5.m4a"></audio>
+                <div class="single-question-container">
+                    <div class="single-question-text">
+                        5. Sino ang may gusto ng yoyo?
+                        <svg class="q-speaker" onclick="playAudio('p17_q5_audio')" viewBox="0 0 24 24"
+                            style="width: 40px; height: 40px;">
+                            <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                        </svg>
+                    </div>
+                    <!-- Reveal Icon Image -->
+                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
+                        style="width: 150px; height: 150px; cursor: pointer;">
+                    <div class="reveal-answer">"Ako ang may gusto ng yoyo."</div>
+                </div>
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_4')">
+                    <div class="arrow"></div>
+                </div>
                 <div class="nav-btn" onclick="showPage('page16_yema_story')">
                     <div class="arrow"></div>
                 </div>
@@ -1629,7 +1765,7 @@ Pasalubong ito ni yaya.
 Kinain ko ang yema.
 Nagpasalamat ako kay Yaya.</div>
 
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_blank_5')">
+                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_5')">
                     <div class="arrow"></div>
                 </div>
                 <div class="nav-btn" onclick="showPage('page16_yema_q1')">
@@ -1740,131 +1876,6 @@ Nagpasalamat ako kay Yaya.</div>
                 <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_q3')">
                     <div class="arrow"></div>
                 </div>
-                <div class="nav-btn" onclick="showPage('page17_1')">
-                    <div class="arrow"></div>
-                </div>
-            </div>
-
-            <!-- Page 17.1 -->
-            <div id="page17_1" class="screen">
-                <audio id="p17_q1_audio" src="../audio/TANONG 1.m4a"></audio>
-                <div class="single-question-container">
-                    <div class="single-question-text">
-                        1. Sino ang may hawak na yero?
-                        <svg class="q-speaker" onclick="playAudio('p17_q1_audio')" viewBox="0 0 24 24"
-                            style="width: 40px; height: 40px;">
-                            <path
-                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                        </svg>
-                    </div>
-                    <!-- Reveal Icon Image -->
-                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
-                        style="width: 150px; height: 150px; cursor: pointer;">
-                    <div class="reveal-answer">"Si tatay ang may hawak na yero."</div>
-                </div>
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page16_yema_q4')">
-                    <div class="arrow"></div>
-                </div>
-                <div class="nav-btn" onclick="showPage('page17_2')">
-                    <div class="arrow"></div>
-                </div>
-            </div>
-
-            <!-- Page 17.2 -->
-            <div id="page17_2" class="screen">
-                <audio id="p17_q2_audio" src="../audio/TANONG 2.m4a"></audio>
-                <div class="single-question-container">
-                    <div class="single-question-text">
-                        2. Sino ang may saya?
-                        <svg class="q-speaker" onclick="playAudio('p17_q2_audio')" viewBox="0 0 24 24"
-                            style="width: 40px; height: 40px;">
-                            <path
-                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                        </svg>
-                    </div>
-                    <!-- Reveal Icon Image -->
-                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
-                        style="width: 150px; height: 150px; cursor: pointer;">
-                    <div class="reveal-answer">"Si nanay ang may saya."</div>
-                </div>
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_1')">
-                    <div class="arrow"></div>
-                </div>
-                <div class="nav-btn" onclick="showPage('page17_3')">
-                    <div class="arrow"></div>
-                </div>
-            </div>
-
-            <!-- Page 17.3 -->
-            <div id="page17_3" class="screen">
-                <audio id="p17_q3_audio" src="../audio/TANONG 3.m4a"></audio>
-                <div class="single-question-container">
-                    <div class="single-question-text">
-                        3. Sino ang may yelo?
-                        <svg class="q-speaker" onclick="playAudio('p17_q3_audio')" viewBox="0 0 24 24"
-                            style="width: 40px; height: 40px;">
-                            <path
-                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                        </svg>
-                    </div>
-                    <!-- Reveal Icon Image -->
-                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
-                        style="width: 150px; height: 150px; cursor: pointer;">
-                    <div class="reveal-answer">"Si ate ang may yelo."</div>
-                </div>
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_2')">
-                    <div class="arrow"></div>
-                </div>
-                <div class="nav-btn" onclick="showPage('page17_4')">
-                    <div class="arrow"></div>
-                </div>
-            </div>  
-
-            <!-- Page 17.4 -->
-            <div id="page17_4" class="screen">
-                <audio id="p17_q4_audio" src="../audio/TANONG 4.m4a"></audio>
-                <div class="single-question-container">
-                    <div class="single-question-text">
-                        4. Sino ang may yeso?
-                        <svg class="q-speaker" onclick="playAudio('p17_q4_audio')" viewBox="0 0 24 24"
-                            style="width: 40px; height: 40px;">
-                            <path
-                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                        </svg>
-                    </div>
-                    <!-- Reveal Icon Image -->
-                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
-                        style="width: 150px; height: 150px; cursor: pointer;">
-                    <div class="reveal-answer">"Si kuya ang may yeso."</div>
-                </div>
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_3')">
-                    <div class="arrow"></div>
-                </div>
-                <div class="nav-btn" onclick="showPage('page17_5')">
-                    <div class="arrow"></div>
-                </div>
-            </div>
-
-            <!-- Page 17.5 -->
-            <div id="page17_5" class="screen">
-                <audio id="p17_q5_audio" src="../audio/TANONG 5.m4a"></audio>
-                <div class="single-question-container">
-                    <div class="single-question-text">
-                        5. Sino ang may gusto ng yoyo?
-                        <svg class="q-speaker" onclick="playAudio('p17_q5_audio')" viewBox="0 0 24 24"
-                            style="width: 40px; height: 40px;">
-                            <path
-                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                        </svg>
-                    </div>
-                    <!-- Reveal Icon Image -->
-                    <img src="../images/surprise-box.png" class="reveal-icon" onclick="showAnswer(this)"
-                        style="width: 150px; height: 150px; cursor: pointer;">
-                    <div class="reveal-answer">"Ako ang may gusto ng yoyo."</div>
-                </div>
-                <div class="nav-btn back-btn" style="right: auto; left: 25px;" onclick="showPage('page17_4')">
-                    <div class="arrow"></div>
-                </div>
                 <div class="nav-btn" onclick="showPage('page18')">
                     <div class="arrow"></div>
                 </div>
@@ -1933,6 +1944,7 @@ Nagpasalamat ako kay Yaya.</div>
         function selectPantig(starEl, audioId) {
             // Find the closest page screen
             const page = starEl.closest('.screen');
+            if (page && page.dataset.pantigLocked === '1') return;
 
             // Deactivate all stars and texts in this page
             page.querySelectorAll('.pantig-star').forEach(s => s.classList.remove('active'));
