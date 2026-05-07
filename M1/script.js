@@ -17,6 +17,18 @@ const GLOBAL_BGM_CONTROLS_ID = 'marungko-bgm-controls';
 const GLOBAL_BGM_VOLUME_ID = 'marungko-bgm-volume';
 const GLOBAL_BGM_VOLUME_KEY = 'marungko_bgm_volume';
 const GLOBAL_BGM_VOLUME = 0.22;
+const SYLLABLE_AUDIO_MAP = {
+    ma: '../audio/Ma.m4a?v=20260507',
+    am: '../audio/Am.m4a?v=20260507',
+    sa: '../audio/Sa.m4a?v=20260507',
+    as: '../audio/As.m4a?v=20260507',
+    ama: '../audio/Ama.m4a?v=20260507',
+    sama: '../audio/Sama.m4a?v=20260507',
+    mama: '../audio/Mama.m4a?v=20260507',
+    asa: '../audio/Asa.m4a?v=20260507',
+    masa: '../audio/Masa.m4a?v=20260507',
+    masama: '../audio/Masama.m4a?v=20260507'
+};
 const GLOBAL_BGM_FILES = [
     'Kids Happy Background Music For Videos.mp3',
     'kids happy music bg.mp3',
@@ -459,9 +471,28 @@ function playAudio(audioSrcOrId, targetId = null) {
     console.log('Playing audio:', audioSrcOrId);
 }
 
+function playSyllableAudio(syllable, targetId = null) {
+    if (typeof syllable !== 'string') return false;
+
+    const normalized = syllable.toLowerCase().trim();
+    const mappedSrc = SYLLABLE_AUDIO_MAP[normalized];
+    if (!mappedSrc) return false;
+
+    playAudio(mappedSrc, targetId);
+    return true;
+}
+
 // Play two or more audio clips in sequence (used for blended sounds like "ma")
 function playAudioSequence(audioIds, targetId) {
     if (!Array.isArray(audioIds) || audioIds.length === 0) return;
+
+    if (audioIds.length === 2) {
+        const firstLetter = String(audioIds[0]).split('_').pop().toLowerCase();
+        const secondLetter = String(audioIds[1]).split('_').pop().toLowerCase();
+        if (playSyllableAudio(`${firstLetter}${secondLetter}`, targetId)) {
+            return;
+        }
+    }
 
     stopAudio();
 
@@ -535,6 +566,10 @@ function selectPantig(starEl, syllableType) {
     const textId = textEl && textEl.id ? textEl.id : null;
 
     if (typeof syllableType === 'string' && syllableType.length >= 2) {
+        if (playSyllableAudio(syllableType, textId)) {
+            return;
+        }
+
         const firstLetter = syllableType.charAt(0).toLowerCase();
         const secondLetter = syllableType.charAt(1).toLowerCase();
         playAudioSequence([`${audioPrefix}_${firstLetter}`, `${audioPrefix}_${secondLetter}`], textId);
